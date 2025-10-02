@@ -6,9 +6,7 @@ const ProductFilter = ({onCategoryChange}) => {
         <div className='product-filter'>
             <button
                 className='product-filter-button-all'
-                // Each time the user clicks this button, call the onCategoryChange function in Home.jsx and pass it the string 'all' as an argument:
                 onClick={() => onCategoryChange('All')}
-                // An aria-label to ensure this button is accessible for screen readers
                 aria-label="All categories"
             >
                 All 🌎

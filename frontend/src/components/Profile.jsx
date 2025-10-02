@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Profile = () => {
@@ -16,7 +16,6 @@ const Profile = () => {
         });
         console.log("Auth0 access token:", accessToken);
 
-        // Send JWT to Django backend
         const response = await fetch("http://localhost:8000/api/profile/", {
           method: "GET",
           headers: {

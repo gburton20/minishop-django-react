@@ -1,16 +1,14 @@
-// import { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import { Auth0Provider } from '@auth0/auth0-react'
-// New import lines for Redux:
 import {Provider} from 'react-redux'
 import { store } from './store.js'
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
-  // New <Provider> Redux wrapper, with the store object passed in:
+  <StrictMode>
     <Provider store={store}>
       <Auth0Provider
         domain='dev-ngpva7twomewnfum.us.auth0.com'
@@ -25,5 +23,5 @@ createRoot(document.getElementById('root')).render(
         </BrowserRouter>
       </Auth0Provider>
     </Provider>
-  // </StrictMode>
+  </StrictMode>
 )

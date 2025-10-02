@@ -157,7 +157,7 @@ AUTH0_DOMAIN = "dev-ngpva7twomewnfum.us.auth0.com"
 AUTH0_API_IDENTIFIER = f"https://{AUTH0_DOMAIN}/api/v2/"
 SIMPLE_JWT = {
     "ALGORITHM": "RS256",
-    "SIGNING_KEY": None,  # Auth0 uses RS256, so public key will be fetched
+    "SIGNING_KEY": None,  
     "VERIFYING_KEY": None,
     "AUDIENCE": AUTH0_API_IDENTIFIER,
     "ISSUER": f"https://{AUTH0_DOMAIN}/",

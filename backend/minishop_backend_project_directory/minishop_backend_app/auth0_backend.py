@@ -41,11 +41,13 @@ class Auth0JSONWebTokenAuthentication(authentication.BaseAuthentication):
                 audience=API_IDENTIFIER,
                 issuer=f'https://{AUTH0_DOMAIN}/'
             )
+
         except Exception as e:
             print(f"JWT validation error: {str(e)}")
             raise exceptions.AuthenticationFailed(f'JWT validation error: {str(e)}')
-        # You can create or get a Django user here if needed
-        return (AnonymousUser(), None)  # For now, returns AnonymousUser
+        
+        return (AnonymousUser(), None)  # 
+    
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from jose import jwt
 import requests
@@ -69,7 +71,7 @@ class Auth0JWTAuthentication(JWTAuthentication):
         except Exception as e:
             print(f"JWT validation failed: {e}")
             return None
-        # Accept any valid Auth0 JWT and return a Django user
+
         from django.contrib.auth.models import User
         sub = validated_token.get('sub')
         if not sub:
@@ -85,7 +87,7 @@ class Auth0JWTAuthentication(JWTAuthentication):
     def get_validated_token(self, raw_token):
         print("Auth0JWTAuthentication: get_validated_token called")
         print(f"Raw token: {raw_token}")
-        # Fetch JWKS from Auth0
+
         jwks_url = f"https://{settings.AUTH0_DOMAIN}/.well-known/jwks.json"
         print(f"Fetching JWKS from: {jwks_url}")
         jwks = requests.get(jwks_url).json()
