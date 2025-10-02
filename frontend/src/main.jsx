@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <Auth0Provider
         domain='dev-ngpva7twomewnfum.us.auth0.com'
-        clientId='5sMCpbS0qTIJNtAXbxZUqOnGJScezSZR'
+        clientId='cUbyRQeg2wJ5prOvvP9ymfNAV8KiZyYh'
         authorizationParams={{
           redirect_uri: window.location.origin,
           audience: "https://dev-ngpva7twomewnfum.us.auth0.com/api/v2/",
