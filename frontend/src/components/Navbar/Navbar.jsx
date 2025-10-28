@@ -9,7 +9,7 @@ const Navbar = ({navCartAddCount}) => {
     <>
       <div className='navbar'>
         <Link to="/">
-          <h1 className='minishop-logo'>Minishop</h1>
+          <img src='/minishop-nav-logo.svg'/>
         </Link>
         <SearchInput/>
         <AuthButton/>
