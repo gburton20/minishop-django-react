@@ -25,3 +25,10 @@ dist-ssr
 .venv
 .env
 requirements.txt
+
+# sqlite to postgres migration
+export_data.py
+import_data.py
+data_backup.json
+MIGRATION_GUIDE.md
+migrate_data.sh
