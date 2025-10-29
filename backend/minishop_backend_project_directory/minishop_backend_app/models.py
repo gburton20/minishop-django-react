@@ -15,3 +15,6 @@ class Product(models.Model):
         return self.name
     def was_added_recently(self):
         return self.created_at >= timezone.now() - datetime.timedelta(days=1)
+    
+    class Meta:
+        ordering = ['id']

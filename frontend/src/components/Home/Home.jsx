@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useMemo } from 'react' // Add useMemo
 import ProductFilter from './ProductFilter'
 import SellProductForm from './SellProductForm'
 import BannerAdContainer from './BannerAdContainer'
@@ -7,7 +7,7 @@ import SellProductButton from './SellProductButton'
 import { useAuth0 } from "@auth0/auth0-react";
 import CartContext from '../../context/CartContext'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts, setSelectedCategory, setProducts, selectFilteredProducts } from '../../features/productsFiltersSlice';
+import { fetchProducts, setSelectedCategory, setProducts } from '../../features/productsFiltersSlice';
 
 const Home = ({
   handleAddToCart = useContext(CartContext)}) => {
@@ -23,8 +23,8 @@ const Home = ({
   const dispatch = useDispatch();
   const products = useSelector((state) => state.productsFilters.products);
   const selectedCategory = useSelector((state) => state.productsFilters.selectedCategory);
-  const searchQuery = useSelector((state) => state.productsFilters.products);
-
+  const searchQuery = useSelector((state) => state.productsFilters.searchQuery);
+  
   const setProductsLocal = (newProducts) => {
     dispatch(setProducts(newProducts));
   };
@@ -122,9 +122,51 @@ const Home = ({
   
   // START of logic for filtering products:
 
-  const filteredProducts = useSelector((state) => 
-    selectFilteredProducts(state, allProducts)
-  );
+  // Use useMemo to apply filtering and search
+  const filteredProducts = useMemo(() => {
+    console.log('Filtering with searchQuery:', searchQuery); // Debug log
+    
+    // Apply category filter first
+    let filtered = selectedCategory === 'All' 
+      ? allProducts 
+      : allProducts.filter(product => product.category === selectedCategory);
+    
+    // Apply search filter if there's a search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      
+      filtered = filtered.filter(product => {
+        const description = product.description?.toLowerCase() || '';
+        const name = product.name?.toLowerCase() || '';
+        const category = product.category?.toLowerCase() || '';
+        
+        let categoryCreationAt = '';
+        let categoryUpdatedAt = '';
+        
+        if (product.categoryObj) {
+          categoryCreationAt = product.categoryObj.creationAt?.toLowerCase() || '';
+          categoryUpdatedAt = product.categoryObj.updatedAt?.toLowerCase() || '';
+        }
+        
+        const matches = (
+          description.includes(query) ||
+          categoryCreationAt.includes(query) ||
+          categoryUpdatedAt.includes(query) ||
+          name.includes(query) ||
+          category.includes(query)
+        );
+        
+        if (matches) {
+          console.log('Product matched search:', product.name); // Debug log
+        }
+        
+        return matches;
+      });
+    }
+    
+    console.log('Filtered products count:', filtered.length); // Debug log
+    return filtered;
+  }, [allProducts, selectedCategory, searchQuery]);
 
   // END of logic for filtering products
 
