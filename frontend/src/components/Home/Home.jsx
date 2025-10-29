@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useMemo } from 'react' // Add useMemo
+import { useContext, useEffect, useState, useMemo } from 'react'
 import ProductFilter from './ProductFilter'
 import SellProductForm from './SellProductForm'
 import BannerAdContainer from './BannerAdContainer'
@@ -136,18 +136,8 @@ const Home = ({
         const name = product.name?.toLowerCase() || '';
         const category = product.category?.toLowerCase() || '';
         
-        let categoryCreationAt = '';
-        let categoryUpdatedAt = '';
-        
-        if (product.categoryObj) {
-          categoryCreationAt = product.categoryObj.creationAt?.toLowerCase() || '';
-          categoryUpdatedAt = product.categoryObj.updatedAt?.toLowerCase() || '';
-        }
-        
         const matches = (
           description.includes(query) ||
-          categoryCreationAt.includes(query) ||
-          categoryUpdatedAt.includes(query) ||
           name.includes(query) ||
           category.includes(query)
         );
