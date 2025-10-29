@@ -7,8 +7,7 @@ import SellProductButton from './SellProductButton'
 import { useAuth0 } from "@auth0/auth0-react";
 import CartContext from '../../context/CartContext'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts, setSelectedCategory, setProducts } from '../../features/productsFiltersSlice';
-
+import { fetchProducts, setSelectedCategory, setProducts, selectFilteredProducts } from '../../features/productsFiltersSlice';
 
 const Home = ({
   handleAddToCart = useContext(CartContext)}) => {
@@ -24,6 +23,8 @@ const Home = ({
   const dispatch = useDispatch();
   const products = useSelector((state) => state.productsFilters.products);
   const selectedCategory = useSelector((state) => state.productsFilters.selectedCategory);
+  const searchQuery = useSelector((state) => state.productsFilters.products);
+
   const setProductsLocal = (newProducts) => {
     dispatch(setProducts(newProducts));
   };
@@ -100,7 +101,9 @@ const Home = ({
       id: product.id,
       image: product.images && product.images.length > 0 ? product.images[0] : '',
       name: product.title,
-      price: product.price
+      price: product.price,
+      description: product.description || '',
+      categoryObj: product.category
     })),
     ...customProducts.map(product => ({
       category: product.category,
@@ -109,22 +112,21 @@ const Home = ({
       ? `http://localhost:8000${product.image}`
       : '',      
       name: product.name,
-      price: product.price
+      price: product.price,
+      description: product.description || '',
+      categoryObj: null
     }))
   ];  
 
   // END of logic for merging 3rd-party-sourced and user-generated products
   
-  // START of logic for ProductFilter.jsx:
+  // START of logic for filtering products:
 
-  const filteredProducts = selectedCategory === 'All'
-    ? allProducts 
-  : allProducts.filter(product => {
-      console.log('Comparing:', product.category, selectedCategory);
-      return product.category === selectedCategory;
-    });
+  const filteredProducts = useSelector((state) => 
+    selectFilteredProducts(state, allProducts)
+  );
 
-  // END of logic for ProductFilter.jsx
+  // END of logic for filtering products
 
   return (
     <div className='home'>

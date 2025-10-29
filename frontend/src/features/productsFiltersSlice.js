@@ -11,6 +11,7 @@ export const fetchProducts = createAsyncThunk(
 const initialState = {
     products: [],
     selectedCategory: 'All',
+    searchQuery: '',
     status: 'idle',
     error: null
 };
@@ -25,6 +26,9 @@ const productsFiltersSlice = createSlice({
         setProducts(state, action) {
             state.products = action.payload;
         },
+        setSearchQuery(state, action) {
+            state.searchQuery = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -42,5 +46,40 @@ const productsFiltersSlice = createSlice({
     }
 });
 
-export const { setSelectedCategory, setProducts } = productsFiltersSlice.actions;
+export const selectFilteredProducts = (state, allProducts) => {
+  const { selectedCategory, searchQuery } = state.productsFilters;
+  
+  let filtered = selectedCategory === 'All' 
+    ? allProducts 
+    : allProducts.filter(product => product.category === selectedCategory);
+  
+  if (searchQuery.trim()) {
+    const query = searchQuery.toLowerCase();
+    filtered = filtered.filter(product => {
+      const description = product.description?.toLowerCase() || '';
+      const name = product.name?.toLowerCase() || '';
+      const category = product.category?.toLowerCase() || '';
+      
+      let categoryCreationAt = '';
+      let categoryUpdatedAt = '';
+      
+      if (product.categoryObj) {
+        categoryCreationAt = product.categoryObj.creationAt?.toLowerCase() || '';
+        categoryUpdatedAt = product.categoryObj.updatedAt?.toLowerCase() || '';
+      }
+      
+      return (
+        description.includes(query) ||
+        categoryCreationAt.includes(query) ||
+        categoryUpdatedAt.includes(query) ||
+        name.includes(query) ||
+        category.includes(query)
+      );
+    });
+  }
+  
+  return filtered;
+};
+
+export const { setSelectedCategory, setProducts, setSearchQuery } = productsFiltersSlice.actions;
 export default productsFiltersSlice.reducer
