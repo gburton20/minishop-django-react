@@ -15,7 +15,7 @@ const ProductCard = ({
                     <img className='product-card-image' src={image} alt={name} />
                 ) : null}                
                 <div className="product-card-name">{name}</div>
-                <div className="product-card-price">${Number(price).toFixed(2)}</div>
+                <div className="product-card-price">${Number(price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                 <button
                     className='product-card-add-to-cart-button'
                     onClick={() => {
