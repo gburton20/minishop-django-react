@@ -4,6 +4,7 @@ import SellProductForm from './SellProductForm'
 import BannerAdContainer from './BannerAdContainer'
 import ProductCardsList from './ProductCardsList/ProductCardsList'
 import SellProductButton from './SellProductButton'
+import Pagination from './Pagination'
 import { useAuth0 } from "@auth0/auth0-react";
 import CartContext from '../../context/CartContext'
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,6 +17,10 @@ const Home = ({
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [customProducts, setCustomProducts] = useState([]);
+
+  // Pagination state:
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(20);
 
   // END of state section
 
@@ -69,9 +74,9 @@ const Home = ({
   // Fetch third-party products:
   useEffect(() => {
     const fetchThirdPartyProducts = async () => {
-      const response = await fetch('https://api.escuelajs.co/api/v1/products');
-      const fetchedProducts = await response.json();
-      setProductsLocal(fetchedProducts);
+      const response = await fetch('https://dummyjson.com/products');
+      const data = await response.json();
+      setProductsLocal(data.products);
     };
     fetchThirdPartyProducts();
   }, []);
@@ -97,13 +102,13 @@ const Home = ({
   
   const allProducts = [
     ...products.map(product => ({
-      category: product.category ? product.category.name : null,
+      category: product.category || null, 
       id: product.id,
       image: product.images && product.images.length > 0 ? product.images[0] : '',
       name: product.title,
       price: product.price,
       description: product.description || '',
-      categoryObj: product.category
+      categoryObj: null 
     })),
     ...customProducts.map(product => ({
       category: product.category,
@@ -150,11 +155,52 @@ const Home = ({
   }, [allProducts, selectedCategory, searchQuery]);
 
   // END of logic for filtering products
+  
+  // START of pagination logic:
+  
+  const totalProducts = filteredProducts.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  
+  // Calculate the products to display on current page
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    return filteredProducts.slice(startIndex, endIndex);
+  }, [filteredProducts, currentPage, productsPerPage]);
+  
+  // Pagination handlers
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Optional: scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+  
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+  
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, searchQuery]);
+  
+  // END of pagination logic
 
   return (
     <div className='home'>
       <ProductFilter
         onCategoryChange={handleCategoryChange}
+        allProducts={allProducts}
       />
         {isAuthenticated && <SellProductButton onClick={openForm}/>}
         {isFormOpen && <SellProductForm 
@@ -164,9 +210,24 @@ const Home = ({
           setCustomProducts={setCustomProducts}
         />}
         <BannerAdContainer/>
+
+        {/* Products count info */}
+        <div className="products-info">
+          Showing {paginatedProducts.length} of {totalProducts} products {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
+        </div>
+
         <ProductCardsList
-          products={filteredProducts}
+          products={paginatedProducts}
           handleAddToCart={handleAddToCart}
+        />
+
+        {/* Pagination component */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          onPreviousPage={handlePreviousPage}
+          onNextPage={handleNextPage}
         />
     </div>
   )

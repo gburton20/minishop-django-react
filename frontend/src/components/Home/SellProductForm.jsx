@@ -111,12 +111,14 @@ const SellProductForm = ({
           <div className='sell-product-name-field-title'>Product name:
             <input 
               className='sell-product-name-input-field'
-              placeholder='Enter your product name here'/>
+              placeholder='Enter your product name here'
+              required
+            />
           </div> 
           {/* Product category: */}
           <div className='sell-product-category-field-title'>
             Product category:
-            <select className='sell-product-category-dropdown'>
+            <select className='sell-product-category-dropdown' required>
               <option value="Clothes">Clothes</option>
               <option value="Electronics">Electronics</option>
               <option value="Furniture">Furniture</option>
@@ -128,7 +130,9 @@ const SellProductForm = ({
           <div className='sell-product-price-field-title'>Price ($):
             <input 
               className='sell-product-price-input-field'
-              placeholder='Enter your price here'/>
+              placeholder='Enter your price here'
+              required
+            />
           </div>
           {/* Product image */}
           <div className='sell-product-image-field-title'>
@@ -138,6 +142,7 @@ const SellProductForm = ({
               type="file"
               accept="image/*"
               name="productImage"
+              required
             />
           </div>
           <button className='submit-product-for-sale-button'>

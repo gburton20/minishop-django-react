@@ -3,8 +3,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async () => {
-        const response = await fetch('https://api.escuelajs.co/api/v1/products');
-        return await response.json();
+        const response = await fetch('https://dummyjson.com/products');
+        const data = await response.json();
+        return data.products;
     }
 );
 
@@ -53,30 +54,20 @@ export const selectFilteredProducts = (state, allProducts) => {
     ? allProducts 
     : allProducts.filter(product => product.category === selectedCategory);
   
-  if (searchQuery.trim()) {
-    const query = searchQuery.toLowerCase();
-    filtered = filtered.filter(product => {
-      const description = product.description?.toLowerCase() || '';
-      const name = product.name?.toLowerCase() || '';
-      const category = product.category?.toLowerCase() || '';
-      
-      let categoryCreationAt = '';
-      let categoryUpdatedAt = '';
-      
-      if (product.categoryObj) {
-        categoryCreationAt = product.categoryObj.creationAt?.toLowerCase() || '';
-        categoryUpdatedAt = product.categoryObj.updatedAt?.toLowerCase() || '';
-      }
-      
-      return (
-        description.includes(query) ||
-        categoryCreationAt.includes(query) ||
-        categoryUpdatedAt.includes(query) ||
-        name.includes(query) ||
-        category.includes(query)
-      );
-    });
-  }
+if (searchQuery.trim()) {
+  const query = searchQuery.toLowerCase();
+  filtered = filtered.filter(product => {
+    const description = product.description?.toLowerCase() || '';
+    const name = product.name?.toLowerCase() || '';
+    const category = product.category?.toLowerCase() || '';
+    
+    return (
+      description.includes(query) ||
+      name.includes(query) ||
+      category.includes(query)
+    );
+  });
+}
   
   return filtered;
 };

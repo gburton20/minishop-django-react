@@ -1,0 +1,20 @@
+{
+    "id": 100,
+    "title": "Asadbek",
+    "slug": "asadbek",
+    "price": 200,
+    "description": "Teacher", 
+    "category": {
+        "id": 2, 
+        "name": "Electronics",
+        "slug": "electronics",
+        "image": "https://i.imgur.com/ZANVnHE.jpeg", 
+        "creationAt": "2025-10-29T21:30:45.000Z",
+        "updatedAt": "2025-10-29T21:30:45.000Z"
+    },
+    "images": [
+        "https://test-admin.ustudy.uz/media/speaker_photos/photo_2025-01-11_03-56-07.jpg"
+    ],
+    "creationAt": "2025-10-30T14:36:11.000Z",
+    "updatedAt": "2025-10-30T14:36:11.000Z"
+}
