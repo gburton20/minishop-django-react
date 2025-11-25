@@ -11,10 +11,13 @@ from .serializers import ProductSerializer
 # Add these imports for Stripe
 import stripe
 import json
+import random
+from datetime import date
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.db import connection
 
 # Set your Stripe secret key from Django settings
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -80,6 +83,34 @@ class ProfileAPIView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Authentication credentials were not provided."}, status=status.HTTP_401_UNAUTHORIZED)
+
+class DailyRandomProductAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        try:
+            products = Product.objects.all()
+            if not products.exists():
+                return Response({"detail": "No products available"}, status=status.HTTP_404_NOT_FOUND)
+            
+            # Use today's date as seed for consistent daily randomness
+            today = date.today()
+            seed_value = int(today.strftime('%Y%m%d'))
+            random.seed(seed_value)
+            
+            # Get random product
+            product_count = products.count()
+            random_index = random.randint(0, product_count - 1)
+            daily_product = products[random_index]
+            
+            serializer = ProductSerializer(daily_product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        finally:
+            # Close the connection explicitly
+            connection.close()
 
 # Add this new Stripe checkout view
 @csrf_exempt
