@@ -86,7 +86,7 @@ const Home = ({
     const fetchCustomProducts = async () => {
       try {
         let allCustomProducts = [];
-        let url = 'http://localhost:8000/products/';
+        let url = `${import.meta.env.VITE_API_URL}/products/`;
         
         // Fetch all pages
         while (url) {
@@ -137,7 +137,7 @@ const Home = ({
       category: product.category,
       id: product.id ? `custom-${product.id}` : `custom-fallback-${product.idx}`,
       image: product.image
-      ? `http://localhost:8000${product.image}`
+      ? `${import.meta.env.VITE_API_URL}${product.image}`
       : '',      
       name: product.name,
       price: product.price,

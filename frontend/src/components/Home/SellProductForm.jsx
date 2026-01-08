@@ -66,7 +66,7 @@ const SellProductForm = ({
             scope: "openid profile email",
           },
         });
-        await fetch("http://localhost:8000/products/", {
+        await fetch(`${import.meta.env.VITE_API_URL}/products/`, {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${accessToken}`,

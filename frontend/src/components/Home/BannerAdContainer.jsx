@@ -20,7 +20,7 @@ const BannerAdContainer = () => {
         }
             try {
                 setLoading(true);
-                const response = await fetch('http://localhost:8000/api/daily-product/');
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/daily-product/`);
                 
                 if (!response.ok) {
                     throw new Error('Failed to fetch daily product');
@@ -73,7 +73,7 @@ const BannerAdContainer = () => {
             <div className="daily-product-container">
                 <ProductCard
                     category={dailyProduct.category}
-                    image={dailyProduct.image ? `http://localhost:8000${dailyProduct.image}` : ''}
+                    image={dailyProduct.image ? `${import.meta.env.VITE_API_URL}${dailyProduct.image}` : ''}
                     name={dailyProduct.name}
                     price={dailyProduct.price}
                 />

@@ -22,7 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+venv
 .venv
+env
 .env
 requirements.txt
 
@@ -36,3 +39,12 @@ migrate_data.sh
 # API swap over
 DummyJSONProduct.json
 PlatziProduct.json
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Django database
+*.sqlite3
+db.sqlite3
