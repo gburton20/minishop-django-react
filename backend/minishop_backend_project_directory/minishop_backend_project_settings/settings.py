@@ -95,10 +95,6 @@ else:
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
-            "OPTIONS": {
-                "MAX_CONNS": 20,  # Limit connections
-            },
-            "CONN_MAX_AGE": 0,  # Don't persist connections
         }
     }
 
