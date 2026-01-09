@@ -126,7 +126,7 @@ const Home = ({
   const allProducts = [
     ...products.map(product => ({
       category: product.category || null, 
-      id: product.id,
+      id: `third-party-${product.id}`,
       image: product.images && product.images.length > 0 ? product.images[0] : '',
       name: product.title,
       price: product.price,
