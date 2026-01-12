@@ -48,3 +48,13 @@ __pycache__/
 # Django database
 *.sqlite3
 db.sqlite3
+
+# Image generation scripts and artifacts
+backend/minishop_backend_project_directory/*.csv
+backend/minishop_backend_project_directory/*.jsonl
+backend/minishop_backend_project_directory/product_images/
+backend/minishop_backend_project_directory/make_batch_jsonl.py
+backend/minishop_backend_project_directory/submit_batch.py
+backend/minishop_backend_project_directory/download_results.py
+backend/minishop_backend_project_directory/extract_images.py
+backend/minishop_backend_project_directory/check_errors.py
