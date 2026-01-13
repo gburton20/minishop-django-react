@@ -59,3 +59,4 @@ backend/minishop_backend_project_directory/download_results.py
 backend/minishop_backend_project_directory/extract_images.py
 backend/minishop_backend_project_directory/check_errors.py
 backend/minishop_backend_project_directory/generate_images_simple.py
+backend/minishop_backend_project_directory/upload_to_supabase.py

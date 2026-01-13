@@ -136,9 +136,11 @@ const Home = ({
     ...customProducts.map(product => ({
       category: product.category,
       id: product.id ? `custom-${product.id}` : `custom-fallback-${product.idx}`,
-      image: product.image
-      ? `${import.meta.env.VITE_API_URL}${product.image}`
-      : '',      
+      image: product.image && product.image.startsWith('http')
+        ? product.image  // Already a full URL from Django
+        : product.image 
+          ? `${import.meta.env.VITE_API_URL}${product.image}`
+          : '',      
       name: product.name,
       price: product.price,
       description: product.description || '',

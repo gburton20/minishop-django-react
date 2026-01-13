@@ -73,7 +73,11 @@ const BannerAdContainer = () => {
             <div className="daily-product-container">
                 <ProductCard
                     category={dailyProduct.category}
-                    image={dailyProduct.image ? `${import.meta.env.VITE_API_URL}${dailyProduct.image}` : ''}
+                    image={dailyProduct.image && dailyProduct.image.startsWith('http')
+                        ? dailyProduct.image  // Already a full URL from Django
+                        : dailyProduct.image 
+                          ? `${import.meta.env.VITE_API_URL}${dailyProduct.image}`
+                          : ''}
                     name={dailyProduct.name}
                     price={dailyProduct.price}
                 />

@@ -12,7 +12,12 @@ const ProductCard = ({
         <>
             <div className='product-card-container'>
                 {image ? (
-                    <img className='product-card-image' src={image} alt={name} />
+                    <img 
+                        className='product-card-image' 
+                        src={image} 
+                        alt={name} 
+                        loading="lazy"
+                    />
                 ) : null}                
                 <div className="product-card-name">{name}</div>
                 <div className="product-card-price">${Number(price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>

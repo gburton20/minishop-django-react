@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from .image_proxy_view import image_proxy
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -9,4 +10,5 @@ urlpatterns = [
     path("api/profile/", views.ProfileAPIView.as_view(), name="get-profile-info-view"),
     path("api/create-checkout-session/", views.create_checkout_session, name="create_checkout_session"),
     path("api/daily-product/", views.DailyRandomProductAPIView.as_view(), name="daily-random-product"),  # Add this line
+    path("images/<path:image_path>", image_proxy, name="image-proxy"),  # Proxy for Supabase images
 ]
