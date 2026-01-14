@@ -130,23 +130,34 @@ const Home = ({
       image: product.images && product.images.length > 0 ? product.images[0] : '',
       name: product.title,
       price: product.price,
-      description: product.description || '',
-      categoryObj: null 
+      description: product.description || 'No description available',
+      brand: product.brand || 'Unknown brand',
+      rating: product.rating || null,
+      discountPercentage: product.discountPercentage || 0,
+      availabilityStatus: product.availabilityStatus || 'In Stock',
+      categoryObj: null  
     })),
     ...customProducts.map(product => ({
       category: product.category,
       id: product.id ? `custom-${product.id}` : `custom-fallback-${product.idx}`,
       image: product.image && product.image.startsWith('http')
-        ? product.image  // Already a full URL from Django
+        ? product.image  // Already a full URL (Supabase or other external source)
         : product.image 
-          ? `${import.meta.env.VITE_API_URL}${product.image}`
+          ? `${import.meta.env.VITE_API_URL}${product.image}`  // Django local media path, where import.meta.env.VITE_API_URL = "http://localhost:8000"
           : '',      
       name: product.name,
       price: product.price,
-      description: product.description || '',
+      description: product.description || 'No description available',
+      brand: product.brand || 'Unknown brand',
+      rating: product.rating || null,
+      discountPercentage: product.discountPercentage || 0,
+      availabilityStatus: product.availabilityStatus || 'In Stock',
       categoryObj: null
     }))
-  ];  
+  ];
+
+  // console.log('typeof products', typeof(products))
+  // console.log('allProducts', allProducts)
 
   // END of logic for merging 3rd-party-sourced and user-generated products
   
