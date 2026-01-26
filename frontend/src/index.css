@@ -475,8 +475,9 @@ body {
   margin: 0px 0px 5px 0px;
 }
 
+/* ✅ sell-product-button converted to Tailwind */
 /* SellProductButton.jsx section: */
-.sell-product-button {
+/* .sell-product-button {
     width: 100%;
     padding: 12px;
     background-color: #ddff00c9;
@@ -486,7 +487,7 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.2s ease;
-}
+} */
 
 /* SellProductForm.jsx section: */
 .sell-product-modal-form-overlay {
@@ -856,7 +857,8 @@ body {
 
 /* Toast.jsx section: */
 
-.toast {
+/* ✅ MIGRATED TO TAILWIND */
+/* .toast {
   position: fixed;
   top: -100px;
   left: 50%;
@@ -941,7 +943,7 @@ body {
   flex: 1;
   font-size: 15px;
   line-height: 1.4;
-}
+} */
 
 /* Responsive toast on mobile */
 @media (max-width: 640px) {

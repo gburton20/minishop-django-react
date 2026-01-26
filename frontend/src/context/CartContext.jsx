@@ -25,12 +25,21 @@ export const CartProvider = ({ children }) => {
   }, [cartState]);
 
   const handleAddToCart = (product) => {
-    setCartState(prevCartState => [...prevCartState, product]);
+    setCartState(prevCartState => {
+      const newCartState = [...prevCartState, product];
+      const count = newCartState.filter(p => p.name === product.name).length;
+      
+      // Show toast notification with count
+      if (count > 1) {
+        setToastMessage(`x${count} ${product.name} added to cart!`);
+      } else {
+        setToastMessage(`${product.name} added to cart!`);
+      }
+      setShowToast(true);
+      
+      return newCartState;
+    });
     setNavCartAddCount(previousCount => previousCount + 1);
-    
-    // Show toast notification
-    setToastMessage(`${product.name} added to cart!`);
-    setShowToast(true);
   };
 
   const closeToast = () => {

@@ -11,7 +11,7 @@ export const SearchInput = () => {
 
   return (
     <>
-      <div className='rounded-[10px] bg-white text-[#333]'>
+      <div className='rounded-[10px] bg-white text-[#333] lg:-mx-8 lg:w-[38vw] xl:-mx-8 xl:w-[48vw] 2xl:-mx-8 2xl:w-[58vw]'>
         <input 
           placeholder='Search clothes, electronics, furniture and more...' 
           className='w-full p-2 rounded-[10px] bg-white text-[#333] border-[#ddd] border'

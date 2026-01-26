@@ -8,7 +8,7 @@ const LoginButton = () => {
       <button 
         className="flex text-xl p-1 bg-[#05ABF3] text-white rounded-[10px]"
         onClick={() => loginWithRedirect()}>
-        Log In
+        Log in
       </button>
     </div> // End of log-in-button-container
   )
