@@ -10,7 +10,7 @@ const AuthButton = () => {
       {!isAuthenticated ? (
         <LoginButton/>
       ) : (
-        <div className='authenticated-user-container'>
+        <div className='authenticated-user-container justify'>
           <div className='authenticated-user-name'>
             Welcome, {user.name}
           </div>
