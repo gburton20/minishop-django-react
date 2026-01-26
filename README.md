@@ -56,31 +56,64 @@ This application showcases how to manage state in React using **Redux**, **Conte
 ```
 minishop-react-app-with-redux-and-context-and-prop-drilling-prod/
 ├── README.md
+├── ACCESSIBILITY_TESTING.md
+│
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx
 │   │   ├── main.jsx
-│   │   ├── store/              # Redux store & slices
+│   │   ├── index.css                        # Global styles
+│   │   ├── store.js                         # Redux store & slices
+│   │   │
+│   │   ├── features/
+│   │   │   └── productsFiltersSlice.js
+│   │   │
+│   │   ├── context/
+│   │   │   └── CartContext.jsx              # Cart state management
+│   │   │
 │   │   └── components/
-│   │       ├── Home/
-│   │       ├── Cart/
 │   │       ├── Navbar/
+│   │       │   ├── Navbar.jsx
+│   │       │   ├── SearchInput.jsx
+│   │       │   ├── Auth/
+│   │       │   │   └── AuthButton.jsx
+│   │       │   └── CartNavIcon/
+│   │       │       └── CartNavIcon.jsx
+│   │       │
+│   │       ├── Cart/
+│   │       │   ├── Cart.jsx
+│   │       │   └── CartItem.jsx
+│   │       │
+│   │       ├── Home/
+│   │       │   ├── Home.jsx
+│   │       │   ├── Pagination.jsx
+│   │       │   ├── ProductFilter.jsx
+│   │       │   └── ProductCardsList/
+│   │       │       ├── ProductCard.jsx
+│   │       │       └── ProductCardsList.jsx
+│   │       │
+│   │       ├── ProductDetailsModal.jsx
 │   │       └── Profile.jsx
+│   │
 │   ├── public/
 │   ├── package.json
 │   └── vite.config.js
+│
 └── backend/
     └── minishop_backend_project_directory/
         ├── manage.py
         ├── requirements.txt
         ├── db.sqlite3
-        ├── media/product_images/
+        ├── media/
+        │   └── product_images/
+        │
         ├── minishop_backend_app/
         │   ├── models.py
         │   ├── views.py
         │   ├── serializers.py
         │   ├── urls.py
         │   └── migrations/
+        │
         └── minishop_backend_project_settings/
             ├── settings.py
             ├── urls.py
