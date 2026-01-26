@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useMemo } from 'react'
+import { useContext, useEffect, useState, useMemo, useRef } from 'react'
 import ProductFilter from './ProductFilter'
 import SellProductForm from './SellProductForm'
 import BannerAdContainer from './BannerAdContainer'
@@ -9,7 +9,7 @@ import ProductDetailsModal from '../ProductDetailsModal'
 import { useAuth0 } from "@auth0/auth0-react";
 import CartContext from '../../context/CartContext'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts, setSelectedCategory, setProducts } from '../../features/productsFiltersSlice';
+import { fetchProducts, setSelectedCategory, setProducts, setSearchQuery } from '../../features/productsFiltersSlice';
 
 const Home = ({
   handleAddToCart = useContext(CartContext)}) => {
@@ -18,6 +18,9 @@ const Home = ({
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [customProducts, setCustomProducts] = useState([]);
+  
+  // Ref for scrolling to products info
+  const productsInfoRef = useRef(null);
 
   // Product details modal state:
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -241,21 +244,21 @@ const Home = ({
   // Pagination handlers
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Optional: scroll to top when page changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to products info div when page changes
+    productsInfoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      productsInfoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
   
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      productsInfoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
   
@@ -268,11 +271,22 @@ const Home = ({
 
   return (
     <div className='home'>
-      {/* Filter toast notification */}
-      {filterToast.show && (
-        <div className="filter-toast filter-toast-visible">
-          <span className="filter-toast-icon">🔍</span>
-          <span className="filter-toast-message">{filterToast.message}</span>
+      
+      {/* Search toast notification - positioned at top, below navbar/search */}
+      {searchQuery.trim() && (
+        <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-112.5">
+          <span className="text-xl shrink-0">🔍</span>
+          <span className="flex-1 text-[15px] leading-[1.4]">Searching: "{searchQuery}"</span>
+          <button
+            onClick={() => {
+              dispatch(setSearchQuery(''));
+              dispatch(setSelectedCategory('All'));
+            }}
+            className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors cursor-pointer text-lg leading-none"
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
         </div>
       )}
       
@@ -281,6 +295,25 @@ const Home = ({
         onFilterApplied={handleFilterApplied}
         allProducts={allProducts}
       />
+      
+      {/* Filter toast notification - positioned below ProductFilter */}
+      {filterToast.show && (
+        <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-[450px]">
+          <span className="text-xl shrink-0">🔍</span>
+          <span className="flex-1 text-[15px] leading-[1.4]">{filterToast.message}</span>
+          <button
+            onClick={() => {
+              setFilterToast({ show: false, message: '' });
+              dispatch(setSelectedCategory('All'));
+            }}
+            className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors cursor-pointer text-lg leading-none"
+            aria-label="Clear filter toast"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+      
         {isAuthenticated && <SellProductButton onClick={openForm}/>}
         {isFormOpen && <SellProductForm 
           handleAddProduct={handleAddProduct}
@@ -294,11 +327,11 @@ const Home = ({
           isModalOpen={isModalOpen}
         />}
         
-        {/* Show banner at top only when 'All' is selected */}
-        {selectedCategory === 'All' && <BannerAdContainer openProductModal={openProductModal} />}
+        {/* Show banner at top only when 'All' is selected AND no search is active */}
+        {selectedCategory === 'All' && !searchQuery.trim() && <BannerAdContainer openProductModal={openProductModal} />}
 
         {/* Products count info */}
-        <div className="products-info">
+        <div ref={productsInfoRef} className="products-info">
           Showing {paginatedProducts.length} of {totalProducts} products {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
         </div>
 
@@ -317,8 +350,8 @@ const Home = ({
           onNextPage={handleNextPage}
         />
         
-        {/* Show banner at bottom when a filter is applied */}
-        {selectedCategory !== 'All' && <BannerAdContainer openProductModal={openProductModal} />}
+        {/* Show banner at bottom when a filter is applied OR search is active */}
+        {(selectedCategory !== 'All' || searchQuery.trim()) && <BannerAdContainer openProductModal={openProductModal} />}
     </div>
   )
 }
