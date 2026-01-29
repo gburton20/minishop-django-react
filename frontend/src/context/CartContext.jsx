@@ -5,7 +5,10 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
-  
+
+  // State for selected image in SellProductForm
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const [cartState, setCartState] = useState(() => {
     const saved = localStorage.getItem('Cart');
     if (saved === null) {
@@ -88,7 +91,9 @@ export const CartProvider = ({ children }) => {
         numOfProductsInCart,
         toastMessage,
         showToast,
-        closeToast
+        closeToast,
+        selectedImage,
+        setSelectedImage
       }}
     >
       {children}

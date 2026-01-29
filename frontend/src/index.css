@@ -500,7 +500,7 @@ body {
 
 /* SellProductForm.jsx section: */
 ✅
-.sell-product-modal-form-overlay {
+/* .sell-product-modal-form-overlay {
     position: fixed; 
     top: 0;
     left: 0;
@@ -514,9 +514,10 @@ body {
     opacity: 0; 
     visibility: hidden; 
     transition: opacity 0.3s ease, visibility 0.3s ease;
-}
+} */
 
-.sell-product-modal-form-content {
+✅
+/* .sell-product-modal-form-content {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
@@ -525,26 +526,28 @@ body {
     max-width: 400px; 
     transform: scale(0.9); 
     transition: transform 0.3s ease;
-}
+} */
 
 ✅
-.sell-product-modal-form-overlay.active {
+/* .sell-product-modal-form-overlay.active {
     opacity: 1;
     visibility: visible;
-}
+} */
 
 ✅
-.sell-product-modal-form-overlay .sell-product-modal-form-content {
+/* .sell-product-modal-form-overlay .sell-product-modal-form-content {
     transform: scale(1); 
-}
+} */
 
-.sell-product-name-field-title .sell-product-category-field-title .sell-product-price-field-title .sell-product-image-field-title {
+✅
+/* .sell-product-name-field-title .sell-product-category-field-title .sell-product-price-field-title .sell-product-image-field-title {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
-}
+} */
 
-.sell-product-name-input-field,
+✅
+/* .sell-product-name-input-field,
 .sell-product-category-dropdown,
 .sell-product-price-input-field,
 .sell-product-image-input-field {
@@ -555,9 +558,10 @@ body {
     border-radius: 4px;
     background-color: white;
     color: #333;
-}
+} */
 
-.submit-product-for-sale-button {
+✅
+/* .submit-product-for-sale-button {
     width: 100%;
     padding: 12px;
     background-color: #007bff;
@@ -567,11 +571,12 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.2s ease;
-}
+} */
 
-.submit-product-for-sale-button button:hover {
+✅
+/* .submit-product-for-sale-button button:hover {
     background-color: #0056b3;
-}
+} */
 
 .user-login-form-close-button {
     position: absolute;
