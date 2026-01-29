@@ -28,7 +28,7 @@ const CartItem = () => {
               <div className='cart-item-info-container-child flex flex-col justify-center items-center text-center w-full gap-4'>
                 <div className='cart-item-name font-medium'>{item.name}</div>
                 <div className='cart-item-price font-light'>${Number(item.price).toFixed(2)}</div>
-                <div className='cart-item-qty-control-container flex justify-evenly m-1.25 p-1.25 w-[80%] border-2 rounded-[10px] border-gray-500 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]'>
+                <div className='cart-item-qty-control-container flex justify-evenly m-1.25 p-1.25 w-[80%] border-2 rounded-[10px] border-gray-500 bg-[linear-gradient(135deg,#ead266_0%,#77a24b_100%)]'>
                   {/* The '-' button: */}
                   <button
                     className="cart-item-qty-'-' bg-white w-[25%] rounded-lg hover:bg-[#f5f5f5] hover:border-[#999] border-black"

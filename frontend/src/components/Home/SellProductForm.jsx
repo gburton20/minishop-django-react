@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useAuth0 } from '@auth0/auth0-react';
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 const SellProductForm = ({
   handleAddProduct,
@@ -91,21 +92,17 @@ const SellProductForm = ({
         onSubmit={formSubmit}
       >
         <div 
-          className='sell-product-modal-form-content'
+          className='flex flex-col bg-white p-7.5 rounded-lg shadow-[0 5px 20px rgba(0, 0, 0, 0.3)] w-[90%] max-w-100 transition-[transform 0.3s ease] transform-[scale(0.9)]'
           ref={modalRef}
         >
-          <div className='sell-product-modal-form-close-button-container'>
+          <div className='flex flex-row'>
             <div
-              className='sell-product-modal-form-close-button' 
+              className='justify-end' 
               onClick={closeForm} 
               style={{cursor: 'pointer'}}>
-              {/* SVG 'x' icon */}
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-label="Close">
-                  <line x1="4" y1="4" x2="16" y2="16" stroke="black" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="16" y1="4" x2="4" y2="16" stroke="black" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-            </div> {/* End of sell-product-modal-form-close-button */}
-          </div> {/* End of sell-product-modal-form-close-button-container */}
+                <IoCloseCircleOutline />
+            </div> 
+          </div>
 
           {/* Product name */}
           <div className='sell-product-name-field-title'>Product name:
@@ -145,7 +142,7 @@ const SellProductForm = ({
               required
             />
           </div>
-          <button className='submit-product-for-sale-button'>
+          <button className='bg-[linear-gradient(135deg,#ead266_0%,#77a24b_100%)] hover:bg-[linear-gradient(135deg,#d4bb4f_0%,#5f8f3b_100%)] rounded-sm text-white'>
             Post your product for sale on Minishop
           </button>
         </div> {/* End of sell-product-modal-form-content */}

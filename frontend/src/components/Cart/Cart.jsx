@@ -122,7 +122,7 @@ const Cart = () => {
               <div className='cart-section-total-and-checkout-button flex flex-col items-center border-2 m-2.5 p-2.5 rounded-[10px] bg-white'>
                 <div className='bg-amber-200 mb-2.5'><strong>TOTAL: ${Number(sumOfCartItems).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></div>
                 <button 
-                  className='flex w-fit bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white rounded-[10px] m-1.25 hover:bg-[#007bff] h-[10%] border-solid border-2 border-black px-4 py-2 items-center' 
+                  className='flex w-fit bg-[linear-gradient(135deg,#ead266_0%,#77a24b_100%)] text-white rounded-[10px] m-1.25 hover:bg-[#007bff] h-[10%] border-solid border-2 border-black px-4 py-2 items-center' 
                   onClick={handleRealStripeCheckout}
                 >
                   Proceed to Checkout

@@ -70,7 +70,7 @@ const BannerAdContainer = ({ openProductModal }) => {
             className='flex flex-col justify-center items-center py-4 px-3 my-2 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] rounded-xl'
             style={{ position: 'relative' }}
         >
-            <h1 className='banner-h1'>
+            <h1 className='text-2xl text-white'>
                 Minishop's deal of the day!
             </h1>
             <div className="flex justify-center mt-4 w-[70vw] scale-100 border-2 border-solid border-#ffd700 bg-white rounded-lg shadow-[0 2px 10px rgba(0, 0, 0, 0.1)]

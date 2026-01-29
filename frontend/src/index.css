@@ -499,6 +499,7 @@ body {
 } */
 
 /* SellProductForm.jsx section: */
+✅
 .sell-product-modal-form-overlay {
     position: fixed; 
     top: 0;
@@ -526,11 +527,13 @@ body {
     transition: transform 0.3s ease;
 }
 
+✅
 .sell-product-modal-form-overlay.active {
     opacity: 1;
     visibility: visible;
 }
 
+✅
 .sell-product-modal-form-overlay .sell-product-modal-form-content {
     transform: scale(1); 
 }

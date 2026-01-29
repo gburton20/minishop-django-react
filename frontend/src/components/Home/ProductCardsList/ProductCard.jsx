@@ -65,7 +65,7 @@ const ProductCard = ({
                 </button>
                 
                 {product.image ? (
-                    <img 
+                    <img
                         className='product-card-image' 
                         src={product.image} 
                         alt={product.name} 
@@ -75,7 +75,7 @@ const ProductCard = ({
                 <div className="product-card-name">{product.name}</div>
                 <div className="product-card-price">${Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                 <button
-                    className='flex w-fit bg-[#05ABF3] text-white rounded-[10px] m-1.25 hover:bg-[#007bff] h-[10%] border-solid border-2 border-gray-500 px-4 py-2 items-center'
+                    className='flex w-fit bg-[linear-gradient(135deg,#ead266_0%,#77a24b_100%)] text-white rounded-[10px] m-1.25 hover:bg-[linear-gradient(135deg,#d4bb4f_0%,#5f8f3b_100%)] h-[10%] border-solid border-2 border-gray-500 px-4 py-2 items-center'
                     onClick={() => {
                         const productDataPerClick = {
                             category: product.category,
