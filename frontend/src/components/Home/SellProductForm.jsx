@@ -1,8 +1,10 @@
-import { useEffect, useRef, useContext } from 'react'
+import { useEffect, useRef, useContext, useState, Fragment } from 'react'
 import { useAuth0 } from '@auth0/auth0-react';
-import { IoCloseCircle } from "react-icons/io5";
+import { IoCloseCircle, IoChevronDown, IoCheckmark } from "react-icons/io5";
 import CartContext from '../../context/CartContext';
 import confetti from 'canvas-confetti';
+import { Listbox } from '@headlessui/react'
+import Toast from '../Toast';
 
 const SellProductForm = ({
   handleAddProduct,
@@ -11,9 +13,61 @@ const SellProductForm = ({
   setCustomProducts
 }) => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-
+  
   // Use selectedImage state from context
   const { selectedImage, setSelectedImage } = useContext(CartContext);
+
+  // Confirmation toast:
+  const [toastVisible, setToastVisible] = useState(false);
+  
+  // START of logic to handle the product categories:
+  
+  // Define the categories as an array of objects:
+  const categories = [
+    { value: 'beauty', label: 'Beauty', emoji: '💄' },
+    { value: 'fragrances', label: 'Fragrances', emoji: '🌸' },
+    { value: 'skin-care', label: 'Skin care', emoji: '🧴' },
+
+    { value: 'mens-accessories', label: "Men's accessories", emoji: '🧢' },
+    { value: 'mens-shirts', label: "Men's shirts", emoji: '👔' },
+    { value: 'mens-shoes', label: "Men's shoes", emoji: '👞' },
+    { value: 'mens-watches', label: "Men's watches", emoji: '⌚' },
+
+    { value: 'electronics', label: 'Electronics', emoji: '🔌' },
+    { value: 'laptops', label: 'Laptops', emoji: '💻' },
+    { value: 'mobile-accessories', label: 'Mobile accessories', emoji: '📱' },
+    { value: 'smartphones', label: 'Smartphones', emoji: '📱' },
+    { value: 'tablets', label: 'Tablets', emoji: '📱' },
+
+    { value: 'groceries', label: 'Groceries', emoji: '🛒' },
+
+    { value: 'furniture', label: 'Furniture', emoji: '🪑' },
+    { value: 'home-decoration', label: 'Home decoration', emoji: '🏠' },
+    { value: 'kitchen-accessories', label: 'Kitchen accessories', emoji: '🍳' },
+    { value: 'sports-accessories', label: 'Sports accessories', emoji: '⚽' },
+
+    { value: 'motorcycle', label: 'Motorcycle', emoji: '🏍️' },
+    { value: 'vehicle', label: 'Vehicle', emoji: '🚗' },
+
+    { value: 'womens-bags', label: "Women's bags", emoji: '👜' },
+    { value: 'womens-dresses', label: "Women's dresses", emoji: '👗' },
+    { value: 'womens-jewellery', label: "Women's jewellery", emoji: '💍' },
+    { value: 'womens-shoes', label: "Women's shoes", emoji: '👠' },
+    { value: 'womens-watches', label: "Women's watches", emoji: '⌚' },
+
+    { value: 'sunglasses', label: 'Sunglasses', emoji: '🕶️' },
+    { value: 'tops', label: 'Tops', emoji: '👕' },
+  ]
+  
+  // Alphabetise the product categories:
+  const alphabetisedCategories = [...categories].sort((a,b) =>
+    a.label.localeCompare(b.label)
+  )
+  
+  // END of logic to handle the product categories:
+
+  // State for the product category dropdown on mobile:
+  const [selectedCategory, setSelectedCategory] = useState(alphabetisedCategories[0]) 
 
   const modalRef = useRef(null);
 
@@ -46,6 +100,7 @@ const SellProductForm = ({
   }, [isFormOpen, closeForm]);
 
   // END of logic to handle the user closing the form
+
 
   // START of logic to handle the form submission:
   const formSubmit = async (e) => {
@@ -88,6 +143,7 @@ const SellProductForm = ({
       }
     }
     handleAddProduct(formData);
+    setToastVisible(true);
     setSelectedImage(null);
     closeForm();
   };
@@ -96,6 +152,11 @@ const SellProductForm = ({
 
   return (
     <>
+      <Toast
+        message="Product uploaded to Minishop! 🎉"
+        isVisible={toastVisible}
+        onClose={() => setToastVisible(false)}
+      />
       <form
         className={`
           fixed inset-0 z-50
@@ -131,62 +192,49 @@ const SellProductForm = ({
               required
             />
           </div>
+
           {/* Product category: */}
-          <div className='mb-5 text-black'>
+          <div className="mb-5 text-black w-full">
             Product category:
-            <select 
-              name='category'
-              className='w-full p-2.5 mb-3.75 border border-[#ddd] rounded-sm bg-white text-[#333]' 
-              required
-            >
+            
+            <Listbox value={selectedCategory} onChange={setSelectedCategory} name="category">
+              <div className="relative w-full">
+                <Listbox.Button className="w-full p-2.5 border border-[#ddd] rounded-sm bg-white text-[#333] flex justify-between items-center">
+                  <span>{selectedCategory.emoji} {selectedCategory.label}</span>
+                  <IoChevronDown className="ml-2" />
+                </Listbox.Button>
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg z-10">
+                  {alphabetisedCategories.map((category) => (
+                    <Listbox.Option
+                      key={category.value}
+                      value={category}
+                      as={Fragment}
+                    >
+                      {({ active, selected }) => (
+                        <li
+                          className={`cursor-pointer select-none relative py-2 pl-10 pr-4 ${
+                            active ? 'bg-green-100 text-green-900' : 'text-gray-900'
+                          }`}
+                        >
+                          <span>{category.emoji} {category.label}</span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
+                              <IoCheckmark />
+                            </span>
+                          ) : null}
+                        </li>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
 
-              {/* Beauty */}
-              <option value="beauty">Beauty</option>
-              <option value="fragrances">Fragrances</option>
-              <option value="skin-care">Skin care</option>
-
-              {/* Men's clothing: */}
-              <option value="mens-accessories">Men's accessories</option>
-              <option value="mens-shirts">Men's shirts</option>
-              <option value="mens-shoes">Men's shoes</option>
-              <option value="mens-watches">Men's watches</option>
-
-              {/* Electronics: */}
-              <option value="electronics">Electronics</option>
-              <option value="laptops">Laptops</option>
-              <option value="mobile-accessories">Mobile accessories</option>
-              <option value="smartphones">Smartphones</option>
-              <option value="tablets">Tablets</option>
-
-              {/* Groceries: */}
-              <option value="groceries">Groceries</option>
-
-              {/* Home: */}
-              <option value="furniture">Groceries</option>
-              <option value="home-decoration">Home decoration</option>
-              <option value="kitchen-accessories">Kitchen accessories</option>
-              <option value="sports-accessories">Sports accessories</option>
-
-              {/* Transport: */}
-              <option value="motorcyle">Motorcycle</option>
-              <option value="vehicle">Vehicle</option>
-
-              {/* Women's clothing: */}
-              <option value="womens-bags">Women's bags</option>
-              <option value="womens-dresses">Women's dresses</option>
-              <option value="womens-jewellery">Women's jewellery</option>
-              <option value="womens-shoes">Women's shoes</option>
-              <option value="womens-watches">Women's watches</option>
-
-              {/* Unisex clothing */}
-              <option value="sunglasses">Sunglasses</option>
-              <option value="tops">Tops</option>
-              
-            </select>
           </div>
 
           {/* Product price: */}
-          <div className='mb-5 text-black'>Price ($):
+          <div className='mb-5 text-black'>
+            Price ($):
             <input
               name='price'
               className='w-full p-2.5 mb-3.75 border border-[#ddd] rounded-sm bg-white text-[#333]'
@@ -196,6 +244,7 @@ const SellProductForm = ({
               required
             />
           </div>
+
 
           {/* Product image */}
           <div className="mb-5 text-black">
