@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from .models import Product
 from .serializers import ProductSerializer
 from io import BytesIO
+import re
 
 # Add these imports for Stripe
 import stripe
@@ -61,8 +62,11 @@ class ProductListCreateAPIView(APIView):
             product = serializer.save(user=request.user)
             image_file = request.FILES.get('image')
             if image_file:
+                # Sanitise filename - remove problematic chars:
+                safe_name = re.sub(r'[^A-Za-z0-9._-]', '_', image_file.name)
+                storage_path = f"{product.id}_{safe_name}"
                 # Upload to Supabase Storage
-                storage_path = f"{product.id}_{image_file.name}"
+                storage_path = f"{product.id}_{safe_name}"
                 image_file.seek(0)
                 file_bytes = image_file.read()
                 res = supabase.storage.from_(BUCKET_NAME).upload(

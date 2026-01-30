@@ -19,6 +19,9 @@ const SellProductForm = ({
 
   // Confirmation toast:
   const [toastVisible, setToastVisible] = useState(false);
+
+  // Warning toast:
+  const [toastWarningVisible, setToastWarningVisible] = useState(false);
   
   // START of logic to handle the product categories:
   
@@ -106,6 +109,12 @@ const SellProductForm = ({
   const formSubmit = async (e) => {
     e.preventDefault();
 
+    // Custom validation for image:
+    if (!selectedImage) {
+      setToastWarningVisible(true);
+      return;
+    }
+
     // Trigger confetti
     confetti({
       particleCount: 100,
@@ -117,7 +126,7 @@ const SellProductForm = ({
     const imageFile = selectedImage;
     const formData = new FormData();
     formData.append('name', form.elements['name'].value);
-    formData.append('category', form.elements['category'].value);
+    formData.append('category', selectedCategory.value);
     formData.append('price', form.elements['price'].value);
     if (imageFile) {
       formData.append('image', imageFile);
@@ -145,18 +154,32 @@ const SellProductForm = ({
     handleAddProduct(formData);
     setToastVisible(true);
     setSelectedImage(null);
-    closeForm();
+    setTimeout(() => {
+      closeForm();
+    }, 3000);
   };
+
 
   // END of logic to handle the form submission
 
   return (
     <>
+      {/* Successful upload toast: */}
       <Toast
         message="Product uploaded to Minishop! 🎉"
         isVisible={toastVisible}
         onClose={() => setToastVisible(false)}
       />
+
+      {/* Reminder that image upload is required toast: */}
+      <Toast
+        message="Please select a product image before submitting."
+        isVisible={toastWarningVisible}
+        onClose={() => setToastWarningVisible(false)}
+        variant="warning"
+        duration={3000}
+      />
+
       <form
         className={`
           fixed inset-0 z-50
@@ -260,7 +283,6 @@ const SellProductForm = ({
                   type="file"
                   accept="image/*"
                   name="image"
-                  required
                   className="hidden"
                   onChange={(e) =>
                     setSelectedImage(e.target.files?.[0] ?? null)
