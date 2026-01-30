@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Product
 from .serializers import ProductSerializer
+from io import BytesIO
 
 # Add these imports for Stripe
 import stripe
@@ -57,8 +58,24 @@ class ProductListCreateAPIView(APIView):
         print("FILES:", request.FILES)
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            product = serializer.save(user=request.user)
+            image_file = request.FILES.get('image')
+            if image_file:
+                # Upload to Supabase Storage
+                storage_path = f"{product.id}_{image_file.name}"
+                image_file.seek(0)
+                file_bytes = image_file.read()
+                res = supabase.storage.from_(BUCKET_NAME).upload(
+                    storage_path,
+                    file_bytes,
+                    {"content-type": image_file.content_type, "upsert": "true"}
+                )
+                # Get public URL
+                public_url = supabase.storage.from_(BUCKET_NAME).get_public_url(storage_path)
+                # Update product image field with public URL
+                product.image = public_url
+                product.save(update_fields=["image"])
+            return Response(ProductSerializer(product, context={'request': request}).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProfileAPIView(APIView):

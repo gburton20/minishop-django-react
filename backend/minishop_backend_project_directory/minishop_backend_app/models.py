@@ -22,7 +22,7 @@ class Product(models.Model):
     availability_status = models.CharField(max_length=50, default='In Stock')
     
     # Media
-    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
+    image = models.URLField(blank=True, null=True)
     
     # System/auto fields (keep at end)
     created_at = models.DateTimeField(auto_now_add=True)
