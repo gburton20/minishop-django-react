@@ -22,6 +22,16 @@ from django.db import connection
 # Set your Stripe secret key from Django settings
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+# Supabase client initialisation:
+import os
+from supabase import create_client, Client
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+BUCKET_NAME = os.getenv("SUPABASE_BUCKET", "product-images")
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
 # Debug: Print the key to verify it's loaded (remove this in production)
 print(f"Stripe key loaded: {settings.STRIPE_SECRET_KEY[:12]}..." if settings.STRIPE_SECRET_KEY else "No Stripe key found!")
 

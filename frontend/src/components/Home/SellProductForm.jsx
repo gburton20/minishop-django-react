@@ -61,9 +61,9 @@ const SellProductForm = ({
     const form = e.target;
     const imageFile = selectedImage;
     const formData = new FormData();
-    formData.append('name', form.elements('.product-name').value);
-    formData.append('category', form.elements('.product-category').value);
-    formData.append('price', form.elements('.product-price').value);
+    formData.append('name', form.elements['name'].value);
+    formData.append('category', form.elements['category'].value);
+    formData.append('price', form.elements['price'].value);
     if (imageFile) {
       formData.append('image', imageFile);
     }
@@ -125,7 +125,7 @@ const SellProductForm = ({
           {/* Product name */}
           <div className='mb-5 text-black'>Product name:
             <input
-              name='product-name'
+              name='name'
               className='w-full p-2.5 mb-3.75 border border-[#ddd] rounded-sm bg-white text-[#333]'
               placeholder='Enter your product name here'
               required
@@ -135,7 +135,7 @@ const SellProductForm = ({
           <div className='mb-5 text-black'>
             Product category:
             <select 
-              name='product-category'
+              name='category'
               className='w-full p-2.5 mb-3.75 border border-[#ddd] rounded-sm bg-white text-[#333]' 
               required
             >
@@ -188,7 +188,7 @@ const SellProductForm = ({
           {/* Product price: */}
           <div className='mb-5 text-black'>Price ($):
             <input
-              name='product-price'
+              name='price'
               className='w-full p-2.5 mb-3.75 border border-[#ddd] rounded-sm bg-white text-[#333]'
               placeholder='Enter your price here'
               type='number'
@@ -210,7 +210,7 @@ const SellProductForm = ({
                 <input
                   type="file"
                   accept="image/*"
-                  name="productImage"
+                  name="image"
                   required
                   className="hidden"
                   onChange={(e) =>
