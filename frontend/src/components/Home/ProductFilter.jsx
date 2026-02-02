@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from 'react'
+import { useMemo, useState, useRef } from 'react'
 
 const ProductFilter = ({ onCategoryChange, allProducts, onFilterApplied }) => {
   const [expandedCategory, setExpandedCategory] = useState(null);
@@ -156,7 +156,11 @@ const ProductFilter = ({ onCategoryChange, allProducts, onFilterApplied }) => {
   };
 
   return (
-    <div className='product-filter'>
+    <div
+      className='mx-auto w-full max-w-full flex flex-nowrap gap-2 overflow-x-auto overscroll-x-contain snap-x snap-mandatory px-4 [-webkit-overflow-scrolling:touch] pb-4
+      
+      lg:px-0 lg:justify-center'
+    >
       {availableMetaCategories.map(([metaName, metaData]) => (
         <div
           key={metaName}

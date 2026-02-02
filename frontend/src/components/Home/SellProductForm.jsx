@@ -22,6 +22,7 @@ const SellProductForm = ({
 
   // Warning toast:
   const [toastWarningVisible, setToastWarningVisible] = useState(false);
+  const [toastWarningMessage, setToastWarningMessage] = useState('');
   
   // START of logic to handle the product categories:
   
@@ -70,7 +71,7 @@ const SellProductForm = ({
   // END of logic to handle the product categories:
 
   // State for the product category dropdown on mobile:
-  const [selectedCategory, setSelectedCategory] = useState(alphabetisedCategories[0]) 
+  const [selectedCategory, setSelectedCategory] = useState(null)
 
   const modalRef = useRef(null);
 
@@ -102,6 +103,12 @@ const SellProductForm = ({
     };
   }, [isFormOpen, closeForm]);
 
+  useEffect(() => {
+    if (isFormOpen) {
+      setSelectedCategory(null);
+    }
+  }, [isFormOpen]);
+
   // END of logic to handle the user closing the form
 
 
@@ -111,6 +118,14 @@ const SellProductForm = ({
 
     // Custom validation for image:
     if (!selectedImage) {
+      setToastWarningMessage('Please select a product image before submitting.');
+      setToastWarningVisible(true);
+      return;
+    }
+
+    // Custom validation for category:
+    if (!selectedCategory) {
+      setToastWarningMessage('Please select a product category before submitting.');
       setToastWarningVisible(true);
       return;
     }
@@ -173,7 +188,7 @@ const SellProductForm = ({
 
       {/* Reminder that image upload is required toast: */}
       <Toast
-        message="Please select a product image before submitting."
+        message={toastWarningMessage || "Please complete the form before submitting."}
         isVisible={toastWarningVisible}
         onClose={() => setToastWarningVisible(false)}
         variant="warning"
@@ -223,7 +238,11 @@ const SellProductForm = ({
             <Listbox value={selectedCategory} onChange={setSelectedCategory} name="category">
               <div className="relative w-full">
                 <Listbox.Button className="w-full p-2.5 border border-[#ddd] rounded-sm bg-white text-[#333] flex justify-between items-center">
-                  <span>{selectedCategory.emoji} {selectedCategory.label}</span>
+                  {selectedCategory ? (
+                    <span>{selectedCategory.emoji} {selectedCategory.label}</span>
+                  ) : (
+                    <span className="text-gray-400">Select a category...</span>
+                  )}
                   <IoChevronDown className="ml-2" />
                 </Listbox.Button>
                 <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg z-10">

@@ -423,13 +423,13 @@ body {
 }
 
   /* ✅ daily-product-container and product-card-container converted to Tailwind */
-.daily-product-container .product-card-container {
+/* .daily-product-container .product-card-container {
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transform: scale(1.05);
     border: 2px solid #ffd700;
-}
+} */
 
 .product-cards-list {
   display: flex;
@@ -439,7 +439,7 @@ body {
 }
 
   /* ✅ product-card-container converted to Tailwind */
-.product-card-container {
+/* .product-card-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -450,24 +450,24 @@ body {
   margin: 5px;
   border: 2px gray solid;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
+} */
 
 /* Mobile: larger product cards for better visibility */
 @media (max-width: 639px) {
     /* ✅ product-card-container converted to Tailwind */
-  .product-card-container {
+  /* .product-card-container {
     width: 45vw;
     min-width: 160px;
     max-width: 200px;
-  }
+  } */
   
   /* ✅ daily-product-container and product-card-container converted to Tailwind */
 
-  .daily-product-container .product-card-container {
+  /* .daily-product-container .product-card-container {
     width: 70vw;
     max-width: 280px;
     transform: scale(1);
-  }
+  } */
 }
 
 .product-card-image {
@@ -620,9 +620,9 @@ body {
 
 /* Make product card container relative for absolute positioning */
   /* ✅ product-card-container converted to Tailwind */
-.product-card-container {
+/* .product-card-container {
     position: relative;
-}
+} */
 
 /* Modal overlay */
 .product-details-modal-overlay {
@@ -927,6 +927,7 @@ body {
   line-height: 1.4;
 }
 
+
 /* Filter toast - similar styling but blue gradient */
 .filter-toast {
   position: fixed;
@@ -979,85 +980,88 @@ body {
 /* Cart.jsx section: */
 
 /* ✅ .cart-container has been converted to Tailwind */
-.cart-container {
+/* .cart-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   border: 4px #05ABF3 solid;
-}
+} */
 
 /* ✅ cart-title-and-clear-cart-button-container has been converted to Tailwind */
-.cart-title-and-clear-cart-button-container {
+/* .cart-title-and-clear-cart-button-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   border: 2px coral dashed
-}
+} */
 
 /* ✅ cart-title has been converted to Tailwind */
-.cart-title {
+/* .cart-title {
   text-decoration: none;
-}
+} */
 
 /* ✅ cart-product-and-summary-container has been converted to Tailwind */
-.cart-product-and-summary-container {
+/* .cart-product-and-summary-container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-}
+} */
 
 /* ✅ cart-product-list has been converted to Tailwind */
-.cart-product-list {
+/* .cart-product-list {
   display: flex;
   flex-direction: column;
   margin: 10px 10px;
-}
+} */
 
 
 /* CartItem.jsx section: */
 /* ✅ cart-product-container converted to Tailwind */
-.cart-product-container {
+/* .cart-product-container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   width: 45vw;
   margin: 5px 5px;
   border: 2px #05ABF3 solid;
-}
+} */
 
-.cart-product-card-image {
+/* ✅ */
+/* .cart-product-card-image {
   width: 60%;
   height: 100%;
-}
+} */
 
-✅
-.cart-product-card-details-parent {
+/* ✅ */
+/* .cart-product-card-details-parent {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+} */
 
-✅
-.cart-product-card-details-child {
+/* ✅ */
+/* .cart-product-card-details-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-}
+} */
 
-.cart-product-card-quantity-and-buttons {
+/* ✅ */
+/* .cart-product-card-quantity-and-buttons {
   display: flex;
   justify-content: space-evenly;
   margin: 5px 5px;
   padding: 5px 5px;
   width: 80%;
   border: 2px #05ABF3 solid;
-}
+} */
 
-.cart-product-card-quantity-and-buttons button {
+/* ✅ */
+/* .cart-product-card-quantity-and-buttons button {
   background-color: white;
   color: #333;
   border: 1px solid #ddd;
@@ -1066,20 +1070,21 @@ body {
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s ease;
-}
+} */
 
-.cart-product-card-quantity-and-buttons button:hover {
+/* .cart-product-card-quantity-and-buttons button:hover {
   background-color: #f5f5f5;
   color: #000;
   border-color: #999;
-}
+} */
 
-.cart-product-card-quantity-and-buttons button:active {
+/* ✅ */
+/* .cart-product-card-quantity-and-buttons button:active {
   background-color: #e8e8e8;
-}
+} */
 
 /* ✅ cart-order-summary-container converted to Tailwind */
-.cart-order-summary-container {
+/* .cart-order-summary-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1088,4 +1093,4 @@ body {
   border: 2px #05ABF3 solid;
   margin: 10px 10px;
   padding: 10px;
-}
+} */
