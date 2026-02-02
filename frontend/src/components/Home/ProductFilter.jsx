@@ -159,17 +159,21 @@ const ProductFilter = ({ onCategoryChange, allProducts, onFilterApplied }) => {
     <div
       className='mx-auto w-full max-w-full flex flex-nowrap gap-2 overflow-x-auto overscroll-x-contain snap-x snap-mandatory px-4 [-webkit-overflow-scrolling:touch] pb-4
       
-      lg:px-0 lg:justify-center'
+      lg:px-4 lg:justify-between'
     >
       {availableMetaCategories.map(([metaName, metaData]) => (
         <div
           key={metaName}
-          className='product-filter-category-wrapper'
+          className='relative inline-block p-1 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white border-2 border-solid border-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] rounded-lg p-[0.5rem 1rem] text-[14px] cursor-pointer transition-[all_0.2s_ease] whitespace-nowrap 
+          
+          lg:hover:[bg-#f5f5f5] lg:hover:border-[#999] lg:hover:transform-[translateY(-2px)] lg:hover:shadow-[0 2px 8px rgba(0, 0, 0, 0.1)] lg:active:transform-[translateY(0)]
+          
+          '
           onMouseEnter={() => handleMouseEnter(metaName, metaData)}
           onMouseLeave={handleMouseLeave}
         >
           <button
-            className={`product-filter-button-${metaName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+            className='w-full flex items-center justify-center gap-1 bg-transparent border-0 border-black p-0 text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#05abf3] focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-md '
             onClick={() => handleMetaCategoryClick(metaName, metaData)}
             aria-label={`${metaName} category`}
             aria-expanded={expandedCategory === metaName}
@@ -188,7 +192,7 @@ const ProductFilter = ({ onCategoryChange, allProducts, onFilterApplied }) => {
                 .map(subcategory => (
                   <button
                     key={subcategory}
-                    className={`product-filter-subbutton-${subcategory.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+                    className='w-full bg-transparent border-0 p-0 text-left'
                     onClick={() => handleSubcategoryClick(subcategory, formatCategoryName(subcategory))}
                     aria-label={`${formatCategoryName(subcategory)} category`}
                   >

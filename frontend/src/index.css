@@ -150,10 +150,11 @@ body {
     width: 35vw;
   }
   
-  .product-filter {
+  /* ✅ */
+  /* .product-filter {
     padding: 0 1.5rem;
     gap: 1rem;
-  }
+  } */
 }
 
 /* md: Tablets (≥768px) */
@@ -169,11 +170,13 @@ body {
     width: 40vw;
   }
   
-  .product-filter {
+  /* ✅ */
+  /* .product-filter {
     flex-direction: row;
     padding: 0 2rem;
     margin: 1.5rem 0;
-  }
+  } */
+
   /* ✅ The following .pagination classes have been converted to Tailwind: */
   /* .pagination {
     gap: 8px;
@@ -281,23 +284,26 @@ body {
   pointer-events: none;
 } */
 
-.product-filter {
+/* ✅ */
+/* .product-filter {
   display: flex;
   justify-content: space-between;
   padding: 0 1rem;
   margin: 1rem 0;
   gap: 0.5rem;
   flex-wrap: wrap;
-}
+} */
 
 /* Category filter wrapper for dropdown positioning */
-.product-filter-category-wrapper {
+/* ✅ */
+/* .product-filter-category-wrapper {
   position: relative;
   display: inline-block;
-}
+} */
 
 /* Category filter buttons */
-.product-filter-category-wrapper > button {
+/* ✅ */
+/* .product-filter-category-wrapper > button {
   background-color: white;
   color: #333;
   border: 2px solid #ddd;
@@ -307,19 +313,21 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-}
+} */
 
-.product-filter-category-wrapper > button:hover {
+/* ✅ */
+/* .product-filter-category-wrapper > button:hover {
   background-color: #f5f5f5;
   color: #000;
   border-color: #999;
   transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+} */
 
-.product-filter-category-wrapper > button:active {
+/* ✅ */
+/* .product-filter-category-wrapper > button:active {
   transform: translateY(0);
-}
+} */
 
 /* Dropdown submenu */
 .product-filter-submenu {
@@ -340,11 +348,12 @@ body {
 }
 
 /* Add padding to wrapper to bridge gap between button and dropdown */
-.product-filter-category-wrapper {
+/* ✅ */
+/* .product-filter-category-wrapper {
   position: relative;
   display: inline-block;
   padding-bottom: 0.25rem;
-}
+} */
 
 @keyframes dropdownFadeIn {
   from {
