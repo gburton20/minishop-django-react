@@ -33,6 +33,24 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+# Helpful defaults for local device testing / tunneling (ngrok, etc.)
+if DEBUG:
+    ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS if h.strip()]
+    ALLOWED_HOSTS.extend(
+        [
+            '0.0.0.0',
+            'localhost',
+            '127.0.0.1',
+            # Allow any subdomain under these tunnel domains
+            '.ngrok-free.dev',
+            '.ngrok-free.app',
+            '.ngrok.app',
+        ]
+    )
+    # De-dupe while preserving order
+    seen_hosts = set()
+    ALLOWED_HOSTS = [h for h in ALLOWED_HOSTS if not (h in seen_hosts or seen_hosts.add(h))]
+
 
 # Application definition
 

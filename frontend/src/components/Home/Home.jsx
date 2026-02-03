@@ -141,7 +141,19 @@ const Home = ({
             }
             
             // Get next page URL
-            url = data.next;
+            // DRF pagination typically returns an absolute `next` URL (e.g. http://127.0.0.1:8000/...).
+            // On iPhone (ngrok https origin), following that absolute URL bypasses the Vite proxy and fails.
+            // Convert to a same-origin relative URL so the request continues through the preview server proxy.
+            if (data.next) {
+              try {
+                const nextUrl = new URL(data.next);
+                url = `${nextUrl.pathname}${nextUrl.search}`;
+              } catch {
+                url = data.next;
+              }
+            } else {
+              url = null;
+            }
           } else {
             console.error('Error fetching custom products:', response.statusText);
             break;
