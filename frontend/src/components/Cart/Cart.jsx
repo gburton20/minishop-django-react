@@ -14,8 +14,6 @@ const Cart = () => {
     setCartState, 
     numOfProductsInCart,
     counts,
-    handleAddToCart,
-    handleRemoveFromCart,
     sumOfCartItems
   } = useContext(CartContext);
 

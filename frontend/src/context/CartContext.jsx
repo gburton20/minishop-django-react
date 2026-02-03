@@ -28,17 +28,19 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('Cart', JSON.stringify(cartState));
   }, [cartState]);
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product, showToastNotification = true) => {
     setCartState(prevCartState => {
       const newCartState = [...prevCartState, product];
       const count = newCartState.filter(p => p.name === product.name).length;
       // Show toast notification with count
-      if (count > 1) {
-        setToastMessage(`x${count} ${product.name} added to cart!`);
-      } else {
-        setToastMessage(`${product.name} added to cart!`);
+      if (showToastNotification) {
+        if (count > 1) {
+          setToastMessage(`x${count} ${product.name} added to cart!`);
+        } else {
+          setToastMessage(`${product.name} added to cart!`);
+        }
+        setShowToast(true);
       }
-      setShowToast(true);
       return newCartState;
     });
   };

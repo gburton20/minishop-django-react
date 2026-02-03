@@ -39,7 +39,7 @@ const CartItem = () => {
                   {/* The '+' button */}
                   <button 
                     className='cart-item-qty-+ bg-white w-[25%] rounded-lg hover:bg-[#f5f5f5] hover:border-[#999] border-black'
-                    onClick={() => handleAddToCart(item)}
+                    onClick={() => handleAddToCart(item, false)}
                   >
                     +
                   </button>
