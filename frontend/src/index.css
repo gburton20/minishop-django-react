@@ -24,10 +24,11 @@ body {
 
 /* Home.jsx section: */
 
-.home {
+/* ✅ */
+/* .home {
   display: flex;
   flex-direction: column;
-}
+} */
 
 /* ✅ the following .pagination classes have been converted to Tailwind */
 /* Pagination Styles */
@@ -79,12 +80,13 @@ body {
 }
 */
 
-.products-info {
+/* ✅ */
+/* .products-info {
   text-align: center;
   margin: 1rem 0;
   color: #666;
   font-size: 14px;
-}
+} */
 
 /* Navbar.jsx section - Base mobile styles */
 

@@ -282,7 +282,7 @@ const Home = ({
   // END of pagination logic
 
   return (
-    <div className='home'>
+    <div className='flex flex-col'>
       
       {/* Search toast notification - positioned at top, below navbar/search */}
       {searchQuery.trim() && (
@@ -310,7 +310,7 @@ const Home = ({
       
       {/* Filter toast notification - positioned below ProductFilter */}
       {filterToast.show && (
-        <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-[450px]">
+        <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-112.5">
           <span className="text-xl shrink-0">🔍</span>
           <span className="flex-1 text-[15px] leading-[1.4]">{filterToast.message}</span>
           <button
@@ -343,7 +343,7 @@ const Home = ({
         {selectedCategory === 'All' && !searchQuery.trim() && <BannerAdContainer openProductModal={openProductModal} />}
 
         {/* Products count info */}
-        <div ref={productsInfoRef} className="products-info">
+        <div ref={productsInfoRef} className="text-center my-4 mx-0 text-[#666] text-[14px]">
           Showing {paginatedProducts.length} of {totalProducts} products {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
         </div>
 
