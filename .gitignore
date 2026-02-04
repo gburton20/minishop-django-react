@@ -62,3 +62,7 @@ backend/minishop_backend_project_directory/extract_images.py
 backend/minishop_backend_project_directory/check_errors.py
 backend/minishop_backend_project_directory/generate_images_simple.py
 backend/minishop_backend_project_directory/upload_to_supabase.py
+
+# README.md files:
+NGROK_TUNNEL_PLAYBOOK.md
+ACCESSIBILITY_TESTING.md
