@@ -207,7 +207,7 @@ const SellProductForm = ({
         onSubmit={formSubmit}
       >
         <div
-          className="bg-white p-7.5 rounded-lg shadow-[0 5px 20px rgba(0, 0, 0, 0.3)] sm:fit-content transform-[scale(0.9)] transition-[transform 0.3s ease]"
+          className="bg-white p-7.5 rounded-lg shadow-[0 5px 20px rgba(0, 0, 0, 0.3)] sm:fit-content transform-[scale(0.9)] transition-[transform 0.3s ease] md:w-[75vw]"
           ref={modalRef}
         >
           <div className='flex flex-row justify-end'>
@@ -255,7 +255,7 @@ const SellProductForm = ({
                       {({ active, selected }) => (
                         <li
                           className={`cursor-pointer select-none relative py-2 pl-10 pr-4 ${
-                            active ? 'bg-green-100 text-green-900' : 'text-gray-900'
+                            active ? 'bg-[linear-gradient(135deg,#d4bb4f_0%,#5f8f3b_100%)] text-white' : 'text-gray-900'
                           }`}
                         >
                           <span>{category.emoji} {category.label}</span>
@@ -329,7 +329,8 @@ const SellProductForm = ({
 
 
           {/* Post your product for sale button */}
-          <div className='flex flex-col items-start sm:fit-content'>
+          <div className='flex flex-col items-center sm:fit-content'>
+
             <button 
               className='flex justify-center bg-[linear-gradient(135deg,#ead266_0%,#77a24b_100%)] hover:bg-[linear-gradient(135deg,#d4bb4f_0%,#5f8f3b_100%)] rounded-sm text-white px-4 py-2
               
@@ -338,7 +339,7 @@ const SellProductForm = ({
               '
               // onClick={className}
             >
-              Post your product for sale on Minishop
+              Post your product for sale on Minishop!
             </button>
           </div>
         </div> 
