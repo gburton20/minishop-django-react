@@ -7,7 +7,7 @@ const ProductCardsList = ({
 }) => {
 
   return (
-    <div className="product-cards-list">
+    <div className="flex flex-wrap justify-around mt-2.5">
       {products.map((product) => (
         <ProductCard
           product={product}

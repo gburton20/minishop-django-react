@@ -444,12 +444,13 @@ body {
     border: 2px solid #ffd700;
 } */
 
-.product-cards-list {
+/* ✅ */
+/* .product-cards-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin-top: 10px;
-}
+} */
 
   /* ✅ product-card-container converted to Tailwind */
 /* .product-card-container {
