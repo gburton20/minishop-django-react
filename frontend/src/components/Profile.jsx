@@ -49,16 +49,28 @@ const Profile = () => {
   }
 
   return (
-    <div>
-      <img src={user.picture} alt={user.name} />
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-      <h3>Backend User Data</h3>
-      {backendUser ? (
-        <pre>{JSON.stringify(backendUser, null, 2)}</pre>
-      ) : (
-        "No backend user data returned"
-      )}
+    <div className="flex flex-col items-center px-4.5">
+        <img 
+          src={user.picture} 
+          alt={user.name}
+          className="block mx-auto rounded-lg p-4 my-1.5" 
+        />
+        <div className="justify-items-left">
+          <h2 className="my-1.5">
+            <strong>Username: </strong>{user.name}
+          </h2>
+          <h2 className="my-1.5">
+            <strong>Email address:</strong> {user.email}
+          </h2>
+          <h2 className="my-1.5 flex flex-col pb-1">
+            <strong>Copy of complete user data object:</strong>
+          </h2>
+        </div>
+        {backendUser ? (
+          <pre className="text-sm whitespace-pre-wrap wrap-break-word max-w-full overflow-auto px-4">{JSON.stringify(backendUser, null, 2)}</pre>
+        ) : (
+          "No backend user data returned"
+        )}
     </div>
   );
 };
