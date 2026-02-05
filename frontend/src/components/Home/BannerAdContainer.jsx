@@ -89,6 +89,8 @@ const BannerAdContainer = ({ openProductModal }) => {
                 <ProductCard
                     product={{
                         ...dailyProduct,
+                        // Normalize backend snake_case to the camelCase used across the frontend.
+                        availabilityStatus: dailyProduct.availabilityStatus ?? dailyProduct.availability_status ?? 'In Stock',
                         image: dailyProduct.image && dailyProduct.image.startsWith('http')
                         
                             ? dailyProduct.image

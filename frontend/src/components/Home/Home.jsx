@@ -199,8 +199,10 @@ const Home = ({
       description: product.description || 'No description available',
       brand: product.brand || 'Unknown brand',
       rating: product.rating || null,
-      discountPercentage: product.discountPercentage || 0,
-      availabilityStatus: product.availabilityStatus || 'In Stock',
+      // Django/DB uses snake_case (e.g. discount_percentage) while 3rd-party API uses camelCase.
+      // Normalize here so downstream UI can always use `discountPercentage`.
+      discountPercentage: Number(product.discountPercentage ?? product.discount_percentage ?? 0),
+      availabilityStatus: product.availabilityStatus ?? product.availability_status ?? 'In Stock',
       categoryObj: null
     }))
   ];

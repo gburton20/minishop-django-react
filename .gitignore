@@ -66,3 +66,6 @@ backend/minishop_backend_project_directory/upload_to_supabase.py
 # README.md files:
 NGROK_TUNNEL_PLAYBOOK.md
 ACCESSIBILITY_TESTING.md
+
+# Product generation scripts:
+product_generation_scripts/

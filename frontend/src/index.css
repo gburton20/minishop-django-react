@@ -697,7 +697,8 @@ body {
 }
 
 /* Image container */
-.product-details-modal-image-container {
+/* ✅ */
+/* .product-details-modal-image-container {
     width: 100%;
     max-height: 300px;
     display: flex;
@@ -706,25 +707,29 @@ body {
     overflow: hidden;
     border-radius: 8px;
     background-color: #f9f9f9;
-}
+} */
 
-.product-details-modal-image {
+/* ✅ */
+/* .product-details-modal-image {
     max-width: 100%;
     max-height: 300px;
     object-fit: contain;
-}
+} */
 
 /* Product name */
-.product-details-modal-product-name {
+/* ✅ */
+/* .product-details-modal-product-name {
     font-size: 24px;
     font-weight: 600;
     color: #333;
     margin: 0 0 15px 0;
     text-align: center;
-}
+} */
 
 /* Product details fields */
-.product-details-modal-product-brand,
+
+/* ✅ */
+/* .product-details-modal-product-brand,
 .product-details-modal-product-category,
 .product-details-modal-product-price,
 .product-details-modal-product-discount,
@@ -733,22 +738,25 @@ body {
     margin: 10px 0;
     font-size: 16px;
     color: #555;
-}
+} */
 
-.product-details-modal-product-price {
+/* ✅ */
+/* .product-details-modal-product-price {
     font-size: 20px;
     font-weight: 600;
-    color: #007bff;
-}
+    color: black;
+} */
 
+/* ✅ */
+/* 
 .product-details-modal-product-discount {
     color: #28a745;
     font-weight: 600;
-}
+} */
 
-.product-details-modal-product-rating {
+/* .product-details-modal-product-rating {
     color: #ff9800;
-}
+} */
 
 /* Product description */
 .product-details-modal-product-description {
@@ -782,17 +790,20 @@ body {
         padding: 35px;
     }
     
-    .product-details-modal-image-container {
+    /* ✅ */
+    /* .product-details-modal-image-container {
         max-height: 350px;
-    }
-    
-    .product-details-modal-image {
+    } */
+
+    /* ✅ */
+    /* .product-details-modal-image {
         max-height: 350px;
-    }
+    } */
     
-    .product-details-modal-product-name {
+    /* ✅ */
+    /* .product-details-modal-product-name {
         font-size: 26px;
-    }
+    } */
 }
 
 /* md: Tablets (≥768px) */
@@ -803,20 +814,24 @@ body {
         max-height: 90vh;
     }
     
-    .product-details-modal-image-container {
+    /* ✅ */
+    /* .product-details-modal-image-container {
         max-height: 400px;
-    }
+    } */
     
-    .product-details-modal-image {
+    /* ✅ */
+    /* .product-details-modal-image {
         max-height: 400px;
-    }
+    } */
     
-    .product-details-modal-product-name {
+    /* ✅ */
+    /* .product-details-modal-product-name {
         font-size: 28px;
         margin-bottom: 20px;
-    }
+    } */
     
-    .product-details-modal-product-brand,
+    /* ✅ */
+    /* .product-details-modal-product-brand,
     .product-details-modal-product-category,
     .product-details-modal-product-price,
     .product-details-modal-product-discount,
@@ -824,11 +839,12 @@ body {
     .product-details-modal-product-availability {
         font-size: 17px;
         margin: 12px 0;
-    }
-    
-    .product-details-modal-product-price {
+    } */
+
+    /* ✅ */
+    /* .product-details-modal-product-price {
         font-size: 22px;
-    }
+    } */
 }
 
 /* lg: Desktops (≥1024px) */
@@ -837,31 +853,36 @@ body {
         width: 600px; /* Fixed width for large screens */
         padding: 45px;
     }
-    
-    .product-details-modal-image-container {
+
+    /* ✅ */
+    /* .product-details-modal-image-container {
         max-height: 450px;
-    }
-    
-    .product-details-modal-image {
+    } */
+
+    /* ✅ */
+    /* .product-details-modal-image {
         max-height: 450px;
-    }
+    } */
     
-    .product-details-modal-product-name {
+    /* ✅ */
+    /* .product-details-modal-product-name {
         font-size: 30px;
-    }
-    
-    .product-details-modal-product-brand,
+    } */
+
+    /* ✅ */
+    /* .product-details-modal-product-brand,
     .product-details-modal-product-category,
     .product-details-modal-product-price,
     .product-details-modal-product-discount,
     .product-details-modal-product-rating,
     .product-details-modal-product-availability {
         font-size: 18px;
-    }
-    
-    .product-details-modal-product-price {
+    } */
+
+    /* ✅ */
+    /* .product-details-modal-product-price {
         font-size: 24px;
-    }
+    } */
     
     .product-details-modal-product-description {
         margin-top: 25px;

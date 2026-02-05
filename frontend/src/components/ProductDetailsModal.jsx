@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import CartContext from '../context/CartContext';
 
 const ProductDetailsModal = ({
   product,
@@ -8,6 +9,7 @@ const ProductDetailsModal = ({
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const previousActiveElement = useRef(null);
+  const { handleAddToCart } = useContext(CartContext);
 
   // Focus management and scroll lock
   useEffect(() => {
@@ -100,6 +102,21 @@ const ProductDetailsModal = ({
     };
   }, [isModalOpen, closeModal]);
 
+  // Product rating conditional formatting:
+  const rating = Number(product?.rating);
+  const ratingClass =
+    !Number.isFinite(rating) ? "" :
+    rating < 2.5 ? "text-red-500":
+    rating < 4.0 ? "text-orange-500":
+    "text-green-500";
+
+  // Product availability conditional formatting:
+  const availabilityRaw = product?.availabilityStatus;
+  const availabilityText = availabilityRaw ?? "In Stock";
+  const availabilityClass =
+    availabilityRaw == null ? "" :
+    availabilityRaw === "Out of Stock" ? "text-red-500" : "text-green-500";
+
   if (!product) return null;
 
   return (
@@ -112,14 +129,14 @@ const ProductDetailsModal = ({
         aria-describedby="modal-product-description"
       >
         <div 
-          className='product-details-modal-content'
+          className='bg-white p-7.5 rounded-xl shadow-[0 10px 40px rgba(0, 0, 0, 0.3)] w-[90%] max-w-150 max-h-[85vh] overflow-y-auto transform-[scale(1)] transition-[transform 0.3s ease] sm:w-[85%] s:p-[35px] md:w-[80%]'
           ref={modalRef}
         >
           {/* Close button */}
-          <div className='product-details-modal-close-button-container'>
+          <div className='flex justify-end mb-2.5'>
             <button
               ref={closeButtonRef}
-              className='product-details-modal-close-button' 
+              className='p-1 transition-[opacity 0.2s ease] hover:opacity-[0.7]' 
               onClick={closeModal} 
               aria-label="Close product details"
               style={{cursor: 'pointer', background: 'none', border: 'none'}}>
@@ -132,11 +149,27 @@ const ProductDetailsModal = ({
 
           {/* Product image */}
           {product.image && (
-            <div className='product-details-modal-image-container'>
+            <div className='w-full max-h-75 flex justify-center mb-5 overflow-hidden rounded-lg border-2 border-gray-500
+            
+            sm:max-h-87.5
+
+            md:max-h-100
+
+            lg:max-h-112.5
+            
+            '>
               <img 
                 src={product.image} 
                 alt={`${product.name} product image`}
-                className='product-details-modal-image'
+                className='max-w-full max-h-75 object-contain
+                
+                sm:max-h-87.5
+
+                md:max-h-100
+
+                lg:max-h-112.5
+
+                '
               />
             </div>
           )}
@@ -144,57 +177,92 @@ const ProductDetailsModal = ({
           {/* Product name */}
           <h2 
             id="modal-product-name"
-            className='product-details-modal-product-name'
+            className='text-[24px] font-semibold text-[#333] mb-3.75 text-center
+            
+            sm:text-[26px]
+
+            md:text-[28px] md:mb-5
+
+            lg:text-[30px]
+            '
           >
             {product.name}
           </h2>
 
-          {/* Product brand */}
-          {product.brand && (
-            <div className='product-details-modal-product-brand'>
-              <strong>Brand:</strong> {product.brand}
+          <div className='all-product-info mx-2.5'>
+            <div className='headline-product-info text-[16px] text-[#555] md:text-[17px] md:mx-3 lg:text-[18px]'>
+              {/* Product brand */}
+              {product.brand && (
+                <div className=''>
+                  <strong>Brand:</strong> {product.brand}
+                </div>
+              )}
+
+              {/* Product category
+              <div className=''>
+                <strong>Category:</strong> {product.category || 'N/A'}
+              </div> */}
+
+              {/* Product price */}
+              <div>
+                <strong>Price:</strong> ${Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
+
+              {/* Product discount percentage */}
+              {product.discountPercentage > 0 && (
+                <div>
+                  <strong>Discount:</strong> <span className='text-red-500'>-{product.discountPercentage}%</span>
+                </div>
+              )}
+
+              {/* Product rating */}
+              {product.rating && (
+                <div>
+                  <span className={ratingClass}>
+                  <strong>Rating:</strong> {rating.toFixed(1)} / 5.0 </span>⭐
+                </div>
+              )}
+
+              {/* Product availability status */}
+                <div>
+                  <span className={availabilityClass}>
+                    <strong>Availability:</strong> {availabilityText}
+                  </span>
+                </div>
+
             </div>
-          )}
 
-          {/* Product category */}
-          <div className='product-details-modal-product-category'>
-            <strong>Category:</strong> {product.category || 'N/A'}
+            {/* Product description */}
+            {product.description && (
+              <div 
+                id="modal-product-description"
+                className='product-details-modal-product-description'
+              >
+                <strong>Description:</strong>
+                <p>{product.description}</p>
+              </div>
+            )}
           </div>
+          
 
-          {/* Product price */}
-          <div className='product-details-modal-product-price'>
-            <strong>Price:</strong> ${Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </div>
-
-          {/* Product discount percentage */}
-          {product.discountPercentage > 0 && (
-            <div className='product-details-modal-product-discount'>
-              <strong>Discount:</strong> {product.discountPercentage}% off
-            </div>
-          )}
-
-          {/* Product rating */}
-          {product.rating && (
-            <div className='product-details-modal-product-rating'>
-              <strong>Rating:</strong> {product.rating} / 5.0 ⭐
-            </div>
-          )}
-
-          {/* Product availability status */}
-          <div className='product-details-modal-product-availability'>
-            <strong>Availability:</strong> {product.availabilityStatus || 'In Stock'}
-          </div>
-
-          {/* Product description */}
-          {product.description && (
-            <div 
-              id="modal-product-description"
-              className='product-details-modal-product-description'
+          <div className="flex flex-col items-center my-2">
+            <button
+              className='flex w-fit bg-[linear-gradient(135deg,#ead266_0%,#77a24b_100%)] text-white rounded-[10px] m-1.25 hover:bg-[linear-gradient(135deg,#d4bb4f_0%,#5f8f3b_100%)] h-[10%] border-solid border-2 border-gray-500 px-4 py-2 items-center'
+              onClick={() => {
+                  const productDataPerClick = {
+                      category: product.category,
+                      image: product.image,
+                      name: product.name,
+                      price: product.price
+                  }
+                  handleAddToCart(productDataPerClick);
+              }}
             >
-              <strong>Description:</strong>
-              <p>{product.description}</p>
-            </div>
-          )}
+              <div className='text-[wrap]'>
+              Add to cart
+              </div>
+            </button>
+          </div>
 
         </div>
       </div>
