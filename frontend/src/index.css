@@ -759,24 +759,27 @@ body {
 } */
 
 /* Product description */
-.product-details-modal-product-description {
+/* ✅ */
+/* .product-details-modal-product-description {
     margin-top: 20px;
     padding-top: 20px;
     border-top: 1px solid #eee;
-}
+} */
 
-.product-details-modal-product-description strong {
+/* ✅ */
+/* .product-details-modal-product-description strong {
     display: block;
     margin-bottom: 8px;
     color: #333;
     font-size: 16px;
-}
+} */
 
-.product-details-modal-product-description p {
+/* ✅ */
+/* .product-details-modal-product-description p {
     color: #666;
     line-height: 1.6;
     margin: 0;
-}
+} */
 
 /* ========================================
    RESPONSIVE BREAKPOINTS (Tailwind-aligned)
@@ -884,10 +887,11 @@ body {
         font-size: 24px;
     } */
     
-    .product-details-modal-product-description {
+    /* ✅ */
+    /* .product-details-modal-product-description {
         margin-top: 25px;
         padding-top: 25px;
-    }
+    } */
 }
 
 /* Touch device optimizations - make info button always visible */

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef } from 'react'
+import StarRatings from 'react-five-star-rating'
 import CartContext from '../context/CartContext';
 
 const ProductDetailsModal = ({
@@ -104,18 +105,23 @@ const ProductDetailsModal = ({
 
   // Product rating conditional formatting:
   const rating = Number(product?.rating);
-  const ratingClass =
-    !Number.isFinite(rating) ? "" :
-    rating < 2.5 ? "text-red-500":
-    rating < 4.0 ? "text-orange-500":
-    "text-green-500";
+  const hasRating = Number.isFinite(rating);
+  const starFillColor = !hasRating
+    ? undefined
+    : rating < 2.5
+      ? "#ef4444" // red-500
+      : rating <= 3.9
+        ? "#f97316" // orange-500
+        : "#22c55e"; // green-500
 
   // Product availability conditional formatting:
   const availabilityRaw = product?.availabilityStatus;
   const availabilityText = availabilityRaw ?? "In Stock";
   const availabilityClass =
     availabilityRaw == null ? "" :
-    availabilityRaw === "Out of Stock" ? "text-red-500" : "text-green-500";
+    availabilityRaw === "Out of Stock" ? "text-red-500" :
+    availabilityRaw === "Low Stock" ? "text-orange-500": 
+    "text-green-500";
 
   if (!product) return null;
 
@@ -193,15 +199,10 @@ const ProductDetailsModal = ({
             <div className='headline-product-info text-[16px] text-[#555] md:text-[17px] md:mx-3 lg:text-[18px]'>
               {/* Product brand */}
               {product.brand && (
-                <div className=''>
+                <div>
                   <strong>Brand:</strong> {product.brand}
                 </div>
               )}
-
-              {/* Product category
-              <div className=''>
-                <strong>Category:</strong> {product.category || 'N/A'}
-              </div> */}
 
               {/* Product price */}
               <div>
@@ -211,37 +212,46 @@ const ProductDetailsModal = ({
               {/* Product discount percentage */}
               {product.discountPercentage > 0 && (
                 <div>
-                  <strong>Discount:</strong> <span className='text-red-500'>-{product.discountPercentage}%</span>
+                  <strong>Discount: </strong> 
+                  <span className='text-red-500'>
+                    -{product.discountPercentage}%
+                  </span>
                 </div>
               )}
 
               {/* Product rating */}
-              {product.rating && (
-                <div>
-                  <span className={ratingClass}>
-                  <strong>Rating:</strong> {rating.toFixed(1)} / 5.0 </span>⭐
+              {hasRating && (
+                <div className='flex flex-wrap gap-x-2 items-center'>
+                  <strong>Customers' rating: </strong>
+                  <StarRatings
+                    rating={rating}
+                    containerClassName="h-5 w-5"
+                    starFillColor={starFillColor}
+                  />
+                  <span>{rating} / 5.0 ⭐️</span>
                 </div>
               )}
 
               {/* Product availability status */}
-                <div>
-                  <span className={availabilityClass}>
-                    <strong>Availability:</strong> {availabilityText}
-                  </span>
-                </div>
-
-            </div>
-
-            {/* Product description */}
-            {product.description && (
-              <div 
-                id="modal-product-description"
-                className='product-details-modal-product-description'
-              >
-                <strong>Description:</strong>
-                <p>{product.description}</p>
+              <div>
+                  <strong>Availability: </strong> 
+                <span className={availabilityClass}>   
+                  {availabilityText}
+                </span>
               </div>
-            )}
+
+
+              {/* Product description */}
+              {product.description && (
+                <div 
+                id="modal-product-description"
+                className='py-5 lg:my-6.25'
+                >
+                  <strong className="mb-2">Description:</strong>
+                  <p className="text-[#666]">{product.description}</p>
+                </div>
+              )}
+              </div>
           </div>
           
 
