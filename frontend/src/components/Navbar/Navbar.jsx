@@ -33,7 +33,8 @@ const Navbar = ({navCartAddCount}) => {
         
         ${
           hideSearch 
-          ? 'sm:col-start-1 sm:row-start-1 sm:justify-self-start sm:justify-start sm:w-max' : 'sm:contents'
+          ? 'sm:col-start-1 sm:row-start-1 sm:justify-self-start sm:justify-start sm:w-max sm:translate-y-2.5' 
+          : 'sm:contents'
         }
 
       `}>
@@ -62,12 +63,12 @@ const Navbar = ({navCartAddCount}) => {
       </div> 
 
       {/* 'Log in' <AuthButton component */}
-      <div className={`absolute top-9 right-4 grow-0 shrink-0 text-center 
+      <div className={`
       
-        sm:relative sm:top-px sm:grow-0 sm:shrink sm:basis-auto sm:text-left sm:order-3
         ${
           hideSearch 
-          ? 'relative top-6 sm:col-start-3 sm:row-start-1 sm:justify-self-end' : ''
+          ? 'absolute top-7 right-4 grow-0 shrink-0 text-center sm:col-start-3 sm:row-start-1 sm:justify-self-end sm:translate-y+3' 
+          : 'absolute top-9 right-1 grow-0 shrink-0 text-center sm:relative sm:top-px sm:grow-0 sm:shrink sm:basis-auto sm:text-left sm:order-3'
         }
       
       `}>
@@ -77,12 +78,11 @@ const Navbar = ({navCartAddCount}) => {
       </div>
 
       {/* 'Log out' <AuthButton component */}
-      <div className={`order-2 row-2 
-      
-        sm:order-3
-
-      ${hideSearch ? 'sm:col-start-3 sm:row-start-1 sm:justify-self-end' : ''}
-      
+      <div className={` 
+        ${hideSearch 
+          ? 'sm:col-start-3 sm:row-start-1 sm:justify-self-end sm:translate-y-2' 
+          : 'order-2 row-2 sm:order-3'
+        }
       `}>
         {isAuthenticated && (
           <AuthButton 
@@ -102,13 +102,12 @@ const Navbar = ({navCartAddCount}) => {
       )}
 
       {/* CartNavIcon: hidden on mobile, visible on sm+ */}
-    <Link to="/cart" className={`order-4 flex-none hidden 
-      
-        sm:flex sm:items-center sm:justify-self-center sm:order-2
-
-        ${hideSearch ? 'sm:col-start-2 sm:row-start-1' : ''}
-
-      `}>
+    <Link to="/cart" className={`
+      ${hideSearch 
+        ? 'sm:col-start-2 sm:row-start-1 sm:translate-y-1' 
+        : 'order-4 flex-none hidden sm:flex sm:items-center sm:justify-self-center sm:order-2'
+      }
+    `}>
         <CartNavIcon navCartAddCount={navCartAddCount}/>
       </Link>
     </div>

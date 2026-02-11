@@ -10,6 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import CartContext from '../../context/CartContext'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts, setSelectedCategory, setProducts, setSearchQuery } from '../../features/productsFiltersSlice';
+import useProductsPerPage from '../../hooks/useProductsPerPage';
 
 const Home = ({
   handleAddToCart = useContext(CartContext)}) => {
@@ -31,7 +32,7 @@ const Home = ({
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(20);
+  const productsPerPage = useProductsPerPage();
 
   // END of state section
 
@@ -279,7 +280,7 @@ const Home = ({
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, productsPerPage]);
   
   // END of pagination logic
 

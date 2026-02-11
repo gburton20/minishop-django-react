@@ -49,7 +49,7 @@ const ProductCard = ({
     return (
         <>
             <div 
-                className={`flex flex-col items-center w-[15.76vw] h-auto text-center m-1.25 bg-white rounded-lg shadow-[0 4px 8px rgba(0, 0, 0, 0.15)] transform-100 border-solid border-2 border-gray min-w-40 max-w-70 scale-100 ${className}`}
+                className={`flex flex-col items-center w-full min-w-0 h-auto text-center m-1.25 bg-white rounded-lg shadow-[0 4px 8px rgba(0, 0, 0, 0.15)] transform-100 border-solid border-2 border-gray max-w-70 scale-100 ${className}`}
                 ref={cardRef}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

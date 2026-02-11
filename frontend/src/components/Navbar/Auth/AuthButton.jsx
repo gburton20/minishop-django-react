@@ -13,7 +13,7 @@ const AuthButton = ({ navCartAddCount }) => {
       {!isAuthenticated ? (
         <LoginButton/>
       ) : (
-        <div className='flex bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] h-22 rounded-lg justify-around items-center
+        <div className='flex bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] h-22 rounded-lg justify-around items-center m-1
         
         sm:bg-none sm:gap-4
         
