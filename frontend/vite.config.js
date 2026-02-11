@@ -9,9 +9,8 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     // Tunneling (localtunnel/ngrok/etc) changes the Host header.
-    // `true` avoids dev server 400s due to host allow-list checks.
-    // Safe enough for local dev; don't use this for a public-facing deployment.
-    allowedHosts: true,
+    // Prefer an explicit list over `true` to avoid DNS rebinding risks.
+    allowedHosts: ['.ngrok-free.dev', '.ngrok.io'],
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:8000',
@@ -31,9 +30,9 @@ export default defineConfig({
     host: true,
     port: 4173,
     strictPort: true,
-    // ngrok hostnames change frequently; allow any host for local preview.
+    // ngrok hostnames change frequently; allow ngrok domains for local preview.
     // Don’t use this setting for an internet-facing deployment.
-    allowedHosts: true,
+    allowedHosts: ['.ngrok-free.dev', '.ngrok.io'],
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:8000',
