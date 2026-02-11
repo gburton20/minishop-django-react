@@ -128,7 +128,7 @@ const ProductDetailsModal = ({
   return (
     <>
       <div 
-        className={`product-details-modal-overlay${isModalOpen ? ' active' : ''}`}
+      className={`product-details-modal-overlay${isModalOpen ? ' active' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-product-name"

@@ -615,7 +615,7 @@ body {
 } */
 
 /* Modal overlay */
-/* .product-details-modal-overlay {
+.product-details-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -634,7 +634,8 @@ body {
 .product-details-modal-overlay.active {
     opacity: 1;
     visibility: visible;
-} */
+    transform: scale(1);
+}
 
 /* Modal content box */
 /* .product-details-modal-content {
@@ -652,7 +653,7 @@ body {
 
 .product-details-modal-overlay.active .product-details-modal-content {
     transform: scale(1);
-} */
+} 
 
 /* Close button container */
 /* .product-details-modal-close-button-container {
