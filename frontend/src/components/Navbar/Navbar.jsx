@@ -104,7 +104,7 @@ const Navbar = ({navCartAddCount}) => {
       {/* CartNavIcon: hidden on mobile, visible on sm+ */}
     <Link to="/cart" className={`
       ${hideSearch 
-        ? 'sm:col-start-2 sm:row-start-1 sm:translate-y-1' 
+        ? 'hidden sm:flex sm:col-start-2 sm:row-start-1 sm:translate-y-1' 
         : 'order-4 flex-none hidden sm:flex sm:items-center sm:justify-self-center sm:order-2'
       }
     `}>

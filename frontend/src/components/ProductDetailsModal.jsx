@@ -128,7 +128,12 @@ const ProductDetailsModal = ({
   return (
     <>
       <div 
-      className={`product-details-modal-overlay${isModalOpen ? ' active' : ''}`}
+      className={`fixed inset-0 bg-[rgba(0,0,0,0.7)] flex justify-center items-center z-1000 transition-opacity duration-300
+        ${isModalOpen 
+          ? 'opacity-100 pointer-events-auto' 
+          : 'opacity-0 pointer-events-none'
+        }
+      `}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-product-name"
