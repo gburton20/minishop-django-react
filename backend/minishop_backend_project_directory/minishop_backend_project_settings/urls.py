@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("minishop_backend_app.urls")),
+    path("api/", include("minishop_backend_app.urls")),
 ]
 
 # Serve media files during development
