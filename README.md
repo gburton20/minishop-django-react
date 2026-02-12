@@ -1,6 +1,6 @@
 # MiniShop React App with Redux, Context, and Prop Drilling (Production)
 
-This is the production repository for `minishop-react-app-with-redux-and-context-and-prop-drilling`. The app is a full-stack Django/React web application designed to demonstrate three state management patterns in a single-page React application: **Redux**, **Context API**, and **prop drilling**.
+This is the production repository for `minishop-django-react`. The app is a full-stack Django/React web application designed to demonstrate three state management patterns in a single-page React application: **Redux**, **Context API**, and **prop drilling**.
 
 ---
 
