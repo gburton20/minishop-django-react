@@ -126,25 +126,18 @@ const Home = ({
         let allCustomProducts = [];
         let url = `${import.meta.env.VITE_API_URL}/products/`;
         
-        // Fetch all pages
         while (url) {
           const response = await fetch(url);
           if (response.ok) {
             const data = await response.json();
             
-            // Add products from current page
             if (data.results) {
               allCustomProducts = [...allCustomProducts, ...data.results];
             } else if (Array.isArray(data)) {
-              // Handle case where response is direct array (no pagination)
               allCustomProducts = [...allCustomProducts, ...data];
               break;
             }
             
-            // Get next page URL
-            // DRF pagination typically returns an absolute `next` URL (e.g. http://127.0.0.1:8000/...).
-            // On iPhone (ngrok https origin), following that absolute URL bypasses the Vite proxy and fails.
-            // Convert to a same-origin relative URL so the request continues through the preview server proxy.
             if (data.next) {
               try {
                 const nextUrl = new URL(data.next);
@@ -191,25 +184,20 @@ const Home = ({
       category: product.category,
       id: product.id ? `custom-${product.id}` : `custom-fallback-${product.idx}`,
       image: product.image && product.image.startsWith('http')
-        ? product.image  // Already a full URL (Supabase or other external source)
+        ? product.image  
         : product.image 
-          ? `${import.meta.env.VITE_API_URL}${product.image}`  // Django local media path, where import.meta.env.VITE_API_URL = "http://localhost:8000"
+          ? `${import.meta.env.VITE_API_URL}${product.image}`
           : '',      
       name: product.name,
       price: product.price,
       description: product.description || 'No description available',
       brand: product.brand || 'Unknown brand',
       rating: product.rating || null,
-      // Django/DB uses snake_case (e.g. discount_percentage) while 3rd-party API uses camelCase.
-      // Normalize here so downstream UI can always use `discountPercentage`.
       discountPercentage: Number(product.discountPercentage ?? product.discount_percentage ?? 0),
       availabilityStatus: product.availabilityStatus ?? product.availability_status ?? 'In Stock',
       categoryObj: null
     }))
   ];
-
-  // console.log('typeof products', typeof(products))
-  // console.log('allProducts', allProducts)
 
   // END of logic for merging 3rd-party-sourced and user-generated products
   
@@ -249,17 +237,14 @@ const Home = ({
   const totalProducts = filteredProducts.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   
-  // Calculate the products to display on current page
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
     return filteredProducts.slice(startIndex, endIndex);
   }, [filteredProducts, currentPage, productsPerPage]);
   
-  // Pagination handlers
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Scroll to products info div when page changes
     productsInfoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   
@@ -277,7 +262,6 @@ const Home = ({
     }
   };
   
-  // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategory, searchQuery, productsPerPage]);
@@ -287,7 +271,6 @@ const Home = ({
   return (
     <div className='flex flex-col'>
       
-      {/* Search toast notification - positioned at top, below navbar/search */}
       {searchQuery.trim() && (
         <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-112.5">
           <span className="text-xl shrink-0">🔍</span>
@@ -311,7 +294,6 @@ const Home = ({
         allProducts={allProducts}
       />
       
-      {/* Filter toast notification - positioned below ProductFilter */}
       {filterToast.show && (
         <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-112.5">
           <span className="text-xl shrink-0">🔍</span>
@@ -342,10 +324,8 @@ const Home = ({
           isModalOpen={isModalOpen}
         />}
         
-        {/* Show banner at top only when 'All' is selected AND no search is active */}
         {selectedCategory === 'All' && !searchQuery.trim() && <BannerAdContainer openProductModal={openProductModal} />}
 
-        {/* Products count info */}
         <div ref={productsInfoRef} className="text-center my-4 mx-0 text-[#666] text-[14px]">
           Showing {paginatedProducts.length} of {totalProducts} products {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
         </div>
@@ -356,7 +336,6 @@ const Home = ({
           openProductModal={openProductModal}
         />
 
-        {/* Pagination component */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -365,7 +344,6 @@ const Home = ({
           onNextPage={handleNextPage}
         />
         
-        {/* Show banner at bottom when a filter is applied OR search is active */}
         {(selectedCategory !== 'All' || searchQuery.trim()) && <BannerAdContainer openProductModal={openProductModal} />}
     </div>
   )

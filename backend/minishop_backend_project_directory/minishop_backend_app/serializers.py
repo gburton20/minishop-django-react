@@ -11,17 +11,14 @@ class ProductSerializer(serializers.ModelSerializer):
     
     def get_image(self, obj):
         """Return image URLs - Supabase URLs directly for speed"""
-        # Access the raw database value, not the ImageField's processed value
         image_str = obj.__dict__.get('image', '')
         
         if not image_str:
             return None
             
-        # If it's a Supabase URL, return it directly (public bucket, should work)
         if 'supabase.co/storage' in image_str:
             return image_str
         
-        # For local media files, use Django's ImageField behavior
         if image_str and not image_str.startswith('http'):
             request = self.context.get('request')
             if request and obj.image:

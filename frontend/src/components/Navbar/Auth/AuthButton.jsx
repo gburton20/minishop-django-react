@@ -18,18 +18,15 @@ const AuthButton = ({ navCartAddCount }) => {
         sm:bg-none sm:gap-4
         
         lg:justify-between lg:bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] lg:p-2 lg:h-auto lg:py-1'>
-          {/* User greeting: hidden on mobile, flex on lg */}
           <div className="flex items-center justify-between gap-2 text-white sm:hidden lg:flex lg:text-white">
             <LogoutButton className="sm:hidden" />
             <FaUserCircle/> Welcome, {user.name}
           </div>
-          {/* CartNavIcon for mobile only, outside greeting div */}
           <Link to="/cart">
             <div className="sm:hidden">
               <CartNavIcon navCartAddCount={navCartAddCount} />
             </div>
           </Link>
-          {/* Logout for sm and up: visible only on sm+ */}
           <div className="hidden sm:flex sm:items-center sm:h-full lg:hidden">
             <LogoutButton/>
           </div>

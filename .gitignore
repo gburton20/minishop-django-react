@@ -30,6 +30,8 @@ env
 source/
 requirements.txt
 .env.ngrok
+.env.production
+.env.development
 
 # sqlite to postgres migration
 export_data.py

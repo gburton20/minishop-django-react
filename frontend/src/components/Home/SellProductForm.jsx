@@ -14,19 +14,15 @@ const SellProductForm = ({
 }) => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   
-  // Use selectedImage state from context
   const { selectedImage, setSelectedImage } = useContext(CartContext);
 
-  // Confirmation toast:
   const [toastVisible, setToastVisible] = useState(false);
 
-  // Warning toast:
   const [toastWarningVisible, setToastWarningVisible] = useState(false);
   const [toastWarningMessage, setToastWarningMessage] = useState('');
   
   // START of logic to handle the product categories:
   
-  // Define the categories as an array of objects:
   const categories = [
     { value: 'beauty', label: 'Beauty', emoji: '💄' },
     { value: 'fragrances', label: 'Fragrances', emoji: '🌸' },
@@ -63,14 +59,12 @@ const SellProductForm = ({
     { value: 'tops', label: 'Tops', emoji: '👕' },
   ]
   
-  // Alphabetise the product categories:
   const alphabetisedCategories = [...categories].sort((a,b) =>
     a.label.localeCompare(b.label)
   )
   
   // END of logic to handle the product categories:
 
-  // State for the product category dropdown on mobile:
   const [selectedCategory, setSelectedCategory] = useState(null)
 
   const modalRef = useRef(null);
@@ -337,7 +331,6 @@ const SellProductForm = ({
               sm:fit-content 
               
               '
-              // onClick={className}
             >
               Post your product for sale on Minishop!
             </button>

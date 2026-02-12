@@ -15,12 +15,9 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from .env file
 load_dotenv(BASE_DIR / '.env')
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -100,10 +97,8 @@ WSGI_APPLICATION = 'minishop_backend_project_settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Check if DATABASE_URL is set (production with Supabase)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
-    # dj_database_url.parse returns a Django DATABASES configuration dictionary for a single DB:
     DATABASES = {
         "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, conn_health_checks=True)
     }

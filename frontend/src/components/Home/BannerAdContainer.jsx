@@ -15,7 +15,7 @@ const BannerAdContainer = ({ openProductModal }) => {
         if (cachedData && cachedDate === today) {
             setDailyProduct(JSON.parse(cachedData));
             setLoading(false);
-            setError(null); // Add this line
+            setError(null); 
             return;
         }
             try {
@@ -30,7 +30,6 @@ const BannerAdContainer = ({ openProductModal }) => {
                 setDailyProduct(data);
                 setError(null);
 
-                // Add these lines to cache the data:
                 localStorage.setItem('dailyProduct', JSON.stringify(data));
                 localStorage.setItem('dailyProductDate', today);
             } catch (err) {
@@ -89,7 +88,6 @@ const BannerAdContainer = ({ openProductModal }) => {
                 <ProductCard
                     product={{
                         ...dailyProduct,
-                        // Normalize backend snake_case to the camelCase used across the frontend.
                         availabilityStatus: dailyProduct.availabilityStatus ?? dailyProduct.availability_status ?? 'In Stock',
                         image: dailyProduct.image && dailyProduct.image.startsWith('http')
                         

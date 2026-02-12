@@ -4,7 +4,6 @@ import CartItem from './CartItem'
 import { loadStripe } from '@stripe/stripe-js';
 import { Link } from 'react-router-dom';
 
-// Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const Cart = () => {
@@ -26,14 +25,11 @@ const Cart = () => {
   const uniqueSortedCartProducts = getUniqueSortedCartProducts(cartState);
 
   const safeNumOfProductsInCart = Number(numOfProductsInCart) || 0;
-
-    // Replace the handleRealStripeCheckout function with this updated version:
   
   const handleRealStripeCheckout = async () => {
     try {
       console.log('Starting Stripe checkout...'); // Debug log
       
-      // Create checkout session via your backend
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/create-checkout-session/`, {
         method: 'POST',
         headers: {
@@ -64,19 +60,16 @@ const Cart = () => {
         throw new Error('No checkout URL received from backend');
       }
   
-      // Redirect to Stripe Checkout using the provided URL
       window.location.href = session.url;
       
     } catch (error) {
       console.error('Checkout error:', error);
       alert(`Checkout failed: ${error.message}\n\nFalling back to demo mode.`);
-      // Fallback to demo for now
       handleDemoCheckout();
     }
   };
 
   const handleDemoCheckout = () => {
-    // Enhanced demo that shows cart contents
     const cartSummary = uniqueSortedCartProducts.map(product => 
       `${product.name} x${counts[product.name]} - $${(product.price * counts[product.name]).toFixed(2)}`
     ).join('\n');

@@ -11,7 +11,7 @@ const LoginButton = () => {
         onClick={() => loginWithRedirect()}>
         Log in
       </button>
-    </div> // End of log-in-button-container
+    </div> 
   )
 };
 

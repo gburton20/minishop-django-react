@@ -10,23 +10,20 @@ const ProductCard = ({
     const [hoverTimer, setHoverTimer] = useState(null);
     const cardRef = useRef(null);
     
-    // Safety check
     if (!product) {
         console.error('ProductCard received undefined product');
         return null;
     }
     
-    // Hover trigger logic (5 seconds) - disabled on touch devices
     const handleMouseEnter = () => {
-        // Disable hover trigger on touch devices
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         if (isTouchDevice) {
-            return; // Exit early on touch devices
+            return; 
         }
         
         const timer = setTimeout(() => {
             openProductModal(product);
-        }, 5000); // 5 seconds
+        }, 5000);
         setHoverTimer(timer);
     };
     
@@ -37,7 +34,6 @@ const ProductCard = ({
         }
     };
     
-    // Cleanup timer on unmount
     useEffect(() => {
         return () => {
             if (hoverTimer) {
@@ -54,7 +50,6 @@ const ProductCard = ({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                {/* Info button in top-right corner */}
                 <button
                     className='absolute top-2 right-2 bg-[rgba(255, 255, 255, 0.9)] border-solid border border-[#ddd] rounded-[50%] w-8 h-8 flex items-center justify-center cursor-pointer text-[18px] transition-[ease] z-10 hover:bg-white hover:transform-[scale(1.1)] shadow-[0 2px 8px rgba(0, 0, 0, 0.15)]'
                     onClick={() => openProductModal(product)}

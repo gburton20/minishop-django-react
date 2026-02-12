@@ -5,10 +5,7 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
-
-  // State for selected image in SellProductForm
   const [selectedImage, setSelectedImage] = useState(null);
-
   const [cartState, setCartState] = useState(() => {
     const saved = localStorage.getItem('Cart');
     if (saved === null) {
@@ -16,6 +13,7 @@ export const CartProvider = ({ children }) => {
     }
     return saved ? JSON.parse(saved) : [];
   });
+
   // Compute unique, sorted cart items for display
   const uniqueSortedCartItems = Array.from(
     new Map(cartState.map(product => [product.name, product]))
@@ -32,7 +30,6 @@ export const CartProvider = ({ children }) => {
     setCartState(prevCartState => {
       const newCartState = [...prevCartState, product];
       const count = newCartState.filter(p => p.name === product.name).length;
-      // Show toast notification with count
       if (showToastNotification) {
         if (count > 1) {
           setToastMessage(`x${count} ${product.name} added to cart!`);

@@ -9,8 +9,6 @@ from .models import Product
 from .serializers import ProductSerializer
 from io import BytesIO
 import re
-
-# Add these imports for Stripe
 import stripe
 import json
 import random
@@ -21,7 +19,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.db import connection
 
-# Set your Stripe secret key from Django settings
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Supabase client initialisation:

@@ -15,21 +15,13 @@ const ProductDetailsModal = ({
   // Focus management and scroll lock
   useEffect(() => {
     if (isModalOpen) {
-      // Store the element that triggered the modal
       previousActiveElement.current = document.activeElement;
-      
-      // Prevent body scroll
       document.body.style.overflow = 'hidden';
-      
-      // Focus the close button when modal opens
       setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 100);
     } else {
-      // Restore body scroll
       document.body.style.overflow = '';
-      
-      // Restore focus to trigger element
       previousActiveElement.current?.focus();
     }
 
@@ -109,11 +101,11 @@ const ProductDetailsModal = ({
   const starFillColor = !hasRating
     ? undefined
     : rating < 2.5
-      ? "#ef4444" // red-500
+      ? "#ef4444" 
       : rating <= 3.9
-        ? "#f97316" // orange-500
-        : "#22c55e"; // green-500
-
+        ? "#f97316" 
+        : "#22c55e"; 
+        
   // Product availability conditional formatting:
   const availabilityRaw = product?.availabilityStatus;
   const availabilityText = availabilityRaw ?? "In Stock";

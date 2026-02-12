@@ -8,7 +8,7 @@ const BREAKPOINTS = {
   '2xl': 1536,
 };
 
-// Keeps rows full for your configured column counts:
+// Keeps rows full for configured column counts:
 // - base (<sm): 2 cols  -> 20 items (10 rows)
 // - sm:         3 cols  -> 18 items (6 rows)
 // - md:         4 cols  -> 20 items (5 rows)
