@@ -1,14 +1,16 @@
-import { useContext, useEffect, useState, useMemo } from 'react'
+import { useContext, useEffect, useState, useMemo, useRef } from 'react'
 import ProductFilter from './ProductFilter'
 import SellProductForm from './SellProductForm'
 import BannerAdContainer from './BannerAdContainer'
 import ProductCardsList from './ProductCardsList/ProductCardsList'
 import SellProductButton from './SellProductButton'
 import Pagination from './Pagination'
+import ProductDetailsModal from '../ProductDetailsModal'
 import { useAuth0 } from "@auth0/auth0-react";
 import CartContext from '../../context/CartContext'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts, setSelectedCategory, setProducts } from '../../features/productsFiltersSlice';
+import { fetchProducts, setSelectedCategory, setProducts, setSearchQuery } from '../../features/productsFiltersSlice';
+import useProductsPerPage from '../../hooks/useProductsPerPage';
 
 const Home = ({
   handleAddToCart = useContext(CartContext)}) => {
@@ -17,10 +19,20 @@ const Home = ({
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [customProducts, setCustomProducts] = useState([]);
+  
+  // Ref for scrolling to products info
+  const productsInfoRef = useRef(null);
+
+  // Product details modal state:
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  
+  // Filter toast state:
+  const [filterToast, setFilterToast] = useState({ show: false, message: '' });
 
   // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(20);
+  const productsPerPage = useProductsPerPage();
 
   // END of state section
 
@@ -44,6 +56,18 @@ const Home = ({
 
   const handleCategoryChange = (category) => {
     dispatch(setSelectedCategory(category));
+  };
+  
+  const handleFilterApplied = (categoryName) => {
+    const message = categoryName === 'All' 
+      ? 'Showing all products' 
+      : `Filtered by: ${categoryName}`;
+    setFilterToast({ show: true, message });
+    
+    // Auto-hide toast after 3 seconds
+    setTimeout(() => {
+      setFilterToast({ show: false, message: '' });
+    }, 3000);
   };
 
   // END of Redux section
@@ -69,6 +93,20 @@ const Home = ({
   
   // END of logic for SellProductForm.jsx
   
+  // START of logic for ProductDetailsModal:
+  
+  const openProductModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+  
+  const closeProductModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+  
+  // END of logic for ProductDetailsModal
+  
   // START of logic for fetching products:
 
   // Fetch third-party products:
@@ -88,23 +126,28 @@ const Home = ({
         let allCustomProducts = [];
         let url = `${import.meta.env.VITE_API_URL}/products/`;
         
-        // Fetch all pages
         while (url) {
           const response = await fetch(url);
           if (response.ok) {
             const data = await response.json();
             
-            // Add products from current page
             if (data.results) {
               allCustomProducts = [...allCustomProducts, ...data.results];
             } else if (Array.isArray(data)) {
-              // Handle case where response is direct array (no pagination)
               allCustomProducts = [...allCustomProducts, ...data];
               break;
             }
             
-            // Get next page URL
-            url = data.next;
+            if (data.next) {
+              try {
+                const nextUrl = new URL(data.next);
+                url = `${nextUrl.pathname}${nextUrl.search}`;
+              } catch {
+                url = data.next;
+              }
+            } else {
+              url = null;
+            }
           } else {
             console.error('Error fetching custom products:', response.statusText);
             break;
@@ -126,25 +169,35 @@ const Home = ({
   const allProducts = [
     ...products.map(product => ({
       category: product.category || null, 
-      id: product.id,
+      id: `third-party-${product.id}`,
       image: product.images && product.images.length > 0 ? product.images[0] : '',
       name: product.title,
       price: product.price,
-      description: product.description || '',
-      categoryObj: null 
+      description: product.description || 'No description available',
+      brand: product.brand || 'Unknown brand',
+      rating: product.rating || null,
+      discountPercentage: product.discountPercentage || 0,
+      availabilityStatus: product.availabilityStatus || 'In Stock',
+      categoryObj: null  
     })),
     ...customProducts.map(product => ({
       category: product.category,
       id: product.id ? `custom-${product.id}` : `custom-fallback-${product.idx}`,
-      image: product.image
-      ? `${import.meta.env.VITE_API_URL}${product.image}`
-      : '',      
+      image: product.image && product.image.startsWith('http')
+        ? product.image  
+        : product.image 
+          ? `${import.meta.env.VITE_API_URL}${product.image}`
+          : '',      
       name: product.name,
       price: product.price,
-      description: product.description || '',
+      description: product.description || 'No description available',
+      brand: product.brand || 'Unknown brand',
+      rating: product.rating || null,
+      discountPercentage: Number(product.discountPercentage ?? product.discount_percentage ?? 0),
+      availabilityStatus: product.availabilityStatus ?? product.availability_status ?? 'In Stock',
       categoryObj: null
     }))
-  ];  
+  ];
 
   // END of logic for merging 3rd-party-sourced and user-generated products
   
@@ -184,47 +237,80 @@ const Home = ({
   const totalProducts = filteredProducts.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   
-  // Calculate the products to display on current page
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
     return filteredProducts.slice(startIndex, endIndex);
   }, [filteredProducts, currentPage, productsPerPage]);
   
-  // Pagination handlers
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Optional: scroll to top when page changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    productsInfoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      productsInfoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
   
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      productsInfoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
   
-  // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, productsPerPage]);
   
   // END of pagination logic
 
   return (
-    <div className='home'>
+    <div className='flex flex-col'>
+      
+      {searchQuery.trim() && (
+        <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-112.5">
+          <span className="text-xl shrink-0">🔍</span>
+          <span className="flex-1 text-[15px] leading-[1.4]">Searching: "{searchQuery}"</span>
+          <button
+            onClick={() => {
+              dispatch(setSearchQuery(''));
+              dispatch(setSelectedCategory('All'));
+            }}
+            className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors cursor-pointer text-lg leading-none"
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+      
       <ProductFilter
         onCategoryChange={handleCategoryChange}
+        onFilterApplied={handleFilterApplied}
         allProducts={allProducts}
       />
+      
+      {filterToast.show && (
+        <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white px-7 py-3.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-3 mx-4 my-4 font-medium max-w-112.5">
+          <span className="text-xl shrink-0">🔍</span>
+          <span className="flex-1 text-[15px] leading-[1.4]">{filterToast.message}</span>
+          <button
+            onClick={() => {
+              setFilterToast({ show: false, message: '' });
+              dispatch(setSelectedCategory('All'));
+            }}
+            className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors cursor-pointer text-lg leading-none"
+            aria-label="Clear filter toast"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+      
         {isAuthenticated && <SellProductButton onClick={openForm}/>}
         {isFormOpen && <SellProductForm 
           handleAddProduct={handleAddProduct}
@@ -232,19 +318,24 @@ const Home = ({
           isFormOpen={isFormOpen}
           setCustomProducts={setCustomProducts}
         />}
-        <BannerAdContainer/>
+        {isModalOpen && <ProductDetailsModal 
+          product={selectedProduct}
+          closeModal={closeProductModal}
+          isModalOpen={isModalOpen}
+        />}
+        
+        {selectedCategory === 'All' && !searchQuery.trim() && <BannerAdContainer openProductModal={openProductModal} />}
 
-        {/* Products count info */}
-        <div className="products-info">
+        <div ref={productsInfoRef} className="text-center my-4 mx-0 text-[#666] text-[14px]">
           Showing {paginatedProducts.length} of {totalProducts} products {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
         </div>
 
         <ProductCardsList
           products={paginatedProducts}
           handleAddToCart={handleAddToCart}
+          openProductModal={openProductModal}
         />
 
-        {/* Pagination component */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -252,6 +343,8 @@ const Home = ({
           onPreviousPage={handlePreviousPage}
           onNextPage={handleNextPage}
         />
+        
+        {(selectedCategory !== 'All' || searchQuery.trim()) && <BannerAdContainer openProductModal={openProductModal} />}
     </div>
   )
 }

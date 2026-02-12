@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCardsList/ProductCard';
 
-const BannerAdContainer = () => {
+const BannerAdContainer = ({ openProductModal }) => {
     const [dailyProduct, setDailyProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ const BannerAdContainer = () => {
         if (cachedData && cachedDate === today) {
             setDailyProduct(JSON.parse(cachedData));
             setLoading(false);
-            setError(null); // Add this line
+            setError(null); 
             return;
         }
             try {
@@ -30,7 +30,6 @@ const BannerAdContainer = () => {
                 setDailyProduct(data);
                 setError(null);
 
-                // Add these lines to cache the data:
                 localStorage.setItem('dailyProduct', JSON.stringify(data));
                 localStorage.setItem('dailyProductDate', today);
             } catch (err) {
@@ -60,22 +59,45 @@ const BannerAdContainer = () => {
                 <h1 className='banner-h1'>
                     Minishop's deal of the day!
                 </h1>
-                <p>No special deal available today. Check back tomorrow!</p>
+                <p className='text-white'>No special deal available today. Check back tomorrow!</p>
             </div>
         );
     }
 
     return (
-        <div className='banner-ad-div' style={{ position: 'relative' }}>
-            <h1 className='banner-h1'>
+        <div 
+            className='flex flex-col justify-center items-center py-4 px-3 my-2 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] rounded-xl'
+            style={{ position: 'relative' }}
+        >
+            <h1 className='text-2xl text-white'>
                 Minishop's deal of the day!
             </h1>
-            <div className="daily-product-container">
+            <div className="flex justify-center mt-4 w-[70vw] scale-100 border-2 border-solid border-#ffd700 bg-white rounded-lg shadow-[0 2px 10px rgba(0, 0, 0, 0.1)]
+            
+            sm:w-[45vw]
+
+            md:w-[37.5vw]
+
+            lg:w-[32.5vw]
+
+            xl:w-[30vw]
+
+            2xl-[27.5vw]
+
+            ">
                 <ProductCard
-                    category={dailyProduct.category}
-                    image={dailyProduct.image ? `${import.meta.env.VITE_API_URL}${dailyProduct.image}` : ''}
-                    name={dailyProduct.name}
-                    price={dailyProduct.price}
+                    product={{
+                        ...dailyProduct,
+                        availabilityStatus: dailyProduct.availabilityStatus ?? dailyProduct.availability_status ?? 'In Stock',
+                        image: dailyProduct.image && dailyProduct.image.startsWith('http')
+                        
+                            ? dailyProduct.image
+                            : dailyProduct.image 
+                              ? `${import.meta.env.VITE_API_URL}${dailyProduct.image}`
+                              : ''
+                    }}
+                    openProductModal={openProductModal}
+                    className="border-2 border-solid border-[#ffd700]"
                 />
             </div>
         </div>

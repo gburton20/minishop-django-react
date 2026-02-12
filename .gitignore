@@ -27,7 +27,10 @@ venv
 .venv
 env
 .env
-requirements.txt
+source/
+.env.ngrok
+.env.production
+.env.development
 
 # sqlite to postgres migration
 export_data.py
@@ -48,3 +51,22 @@ __pycache__/
 # Django database
 *.sqlite3
 db.sqlite3
+
+# Image generation scripts and artifacts
+backend/minishop_backend_project_directory/*.csv
+backend/minishop_backend_project_directory/*.jsonl
+backend/minishop_backend_project_directory/product_images/
+backend/minishop_backend_project_directory/make_batch_jsonl.py
+backend/minishop_backend_project_directory/submit_batch.py
+backend/minishop_backend_project_directory/download_results.py
+backend/minishop_backend_project_directory/extract_images.py
+backend/minishop_backend_project_directory/check_errors.py
+backend/minishop_backend_project_directory/generate_images_simple.py
+backend/minishop_backend_project_directory/upload_to_supabase.py
+
+# README.md files:
+NGROK_TUNNEL_PLAYBOOK.md
+ACCESSIBILITY_TESTING.md
+
+# Product generation scripts:
+product_generation_scripts/

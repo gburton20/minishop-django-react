@@ -15,12 +15,9 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from .env file
 load_dotenv(BASE_DIR / '.env')
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -32,6 +29,24 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+# Helpful defaults for local device testing / tunneling (ngrok, etc.)
+if DEBUG:
+    ALLOWED_HOSTS = [h.strip() for h in ALLOWED_HOSTS if h.strip()]
+    ALLOWED_HOSTS.extend(
+        [
+            '0.0.0.0',
+            'localhost',
+            '127.0.0.1',
+            # Allow any subdomain under these tunnel domains
+            '.ngrok-free.dev',
+            '.ngrok-free.app',
+            '.ngrok.app',
+        ]
+    )
+    # De-dupe while preserving order
+    seen_hosts = set()
+    ALLOWED_HOSTS = [h for h in ALLOWED_HOSTS if not (h in seen_hosts or seen_hosts.add(h))]
 
 
 # Application definition
@@ -82,13 +97,18 @@ WSGI_APPLICATION = 'minishop_backend_project_settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Check if DATABASE_URL is set (production with Supabase)
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
-    # dj_database_url.parse returns a Django DATABASES configuration dictionary for a single DB:
     DATABASES = {
-        "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+        "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, conn_health_checks=True)
     }
+    # Limit connections for Supabase Session mode
+    DATABASES["default"]["OPTIONS"] = {
+        "connect_timeout": 10,
+    }
+    # Disable persistent connections in development to avoid exhausting pool
+    if DEBUG:
+        DATABASES["default"]["CONN_MAX_AGE"] = 0
 else:
     # Default SQLite config for local development:
     DATABASES = {

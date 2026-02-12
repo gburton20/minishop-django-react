@@ -5,7 +5,10 @@ import Home from './components/Home/Home'
 import Cart from './components/Cart/Cart'
 import Profile from './components/Profile'
 import Navbar from './components/Navbar/Navbar'
+import Toast from './components/Toast'
 import { CartProvider } from './context/CartContext'
+import CartContext from './context/CartContext'
+import './index.css';
 
 const UserMetadataContext = createContext(null);
 export const useUserMetadata = () => useContext(UserMetadataContext);
@@ -46,28 +49,42 @@ function App() {
       <div>
         <UserMetadataContext.Provider value={metadata}>
           <CartProvider>
-            <Navbar/>
-          <Routes>
-            <Route 
-              path="/" 
-              element={<Home 
-              />}>
-            </Route> 
-            <Route 
-              path="/cart" 
-              element={<Cart
-              />}>
-            </Route> 
-            <Route
-              path='/profile' 
-              element={<Profile/>}
-            />
-          </Routes> 
-        </CartProvider>
-      </UserMetadataContext.Provider>
+            <AppContent />
+          </CartProvider>
+        </UserMetadataContext.Provider>
       </div>
     </>
   ) 
+}
+
+function AppContent() {
+  const { toastMessage, showToast, closeToast } = useContext(CartContext);
+  
+  return (
+    <>
+      <Navbar/>
+      <Routes>
+        <Route 
+          path="/" 
+          element={<Home />}>
+        </Route> 
+        <Route 
+          path="/cart" 
+          element={<Cart />}>
+        </Route> 
+        <Route
+          path='/profile' 
+          element={<Profile/>}
+        />
+      </Routes>
+      <Toast 
+        message={toastMessage}
+        isVisible={showToast}
+        onClose={closeToast}
+        duration={3000}
+      />
+    </>
+  );
 }
 
 export default App

@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Product
 from .serializers import ProductSerializer
-
-# Add these imports for Stripe
+from io import BytesIO
+import re
 import stripe
 import json
 import random
@@ -19,8 +19,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.db import connection
 
-# Set your Stripe secret key from Django settings
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+# Supabase client initialisation:
+import os
+from supabase import create_client, Client
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+BUCKET_NAME = os.getenv("SUPABASE_BUCKET", "product-images")
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Debug: Print the key to verify it's loaded (remove this in production)
 print(f"Stripe key loaded: {settings.STRIPE_SECRET_KEY[:12]}..." if settings.STRIPE_SECRET_KEY else "No Stripe key found!")
@@ -40,13 +49,34 @@ class ProductListCreateAPIView(APIView):
         paginator.page_size = 15  
         products = Product.objects.all()
         result_page = paginator.paginate_queryset(products, request)
-        serializer = ProductSerializer(result_page, many=True)
+        serializer = ProductSerializer(result_page, many=True, context={'request': request})
         return paginator.get_paginated_response(serializer.data)
     def post(self, request):
+        print("DATA:", request.data)
+        print("FILES:", request.FILES)
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            product = serializer.save(user=request.user)
+            image_file = request.FILES.get('image')
+            if image_file:
+                # Sanitise filename - remove problematic chars:
+                safe_name = re.sub(r'[^A-Za-z0-9._-]', '_', image_file.name)
+                storage_path = f"{product.id}_{safe_name}"
+                # Upload to Supabase Storage
+                storage_path = f"{product.id}_{safe_name}"
+                image_file.seek(0)
+                file_bytes = image_file.read()
+                res = supabase.storage.from_(BUCKET_NAME).upload(
+                    storage_path,
+                    file_bytes,
+                    {"content-type": image_file.content_type, "upsert": "true"}
+                )
+                # Get public URL
+                public_url = supabase.storage.from_(BUCKET_NAME).get_public_url(storage_path)
+                # Update product image field with public URL
+                product.image = public_url
+                product.save(update_fields=["image"])
+            return Response(ProductSerializer(product, context={'request': request}).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProfileAPIView(APIView):

@@ -1,6 +1,6 @@
 # MiniShop React App with Redux, Context, and Prop Drilling (Production)
 
-This is the production repository for `minishop-react-app-with-redux-and-context-and-prop-drilling`. The app is a full-stack Django/React web application designed to demonstrate three state management patterns in a single-page React application: **Redux**, **Context API**, and **prop drilling**.
+This is the production repository for `minishop-django-react`. The app is a full-stack Django/React web application designed to demonstrate three state management patterns in a single-page React application: **Redux**, **Context API**, and **prop drilling**.
 
 ---
 
@@ -56,31 +56,64 @@ This application showcases how to manage state in React using **Redux**, **Conte
 ```
 minishop-react-app-with-redux-and-context-and-prop-drilling-prod/
 ├── README.md
+├── ACCESSIBILITY_TESTING.md
+│
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx
 │   │   ├── main.jsx
-│   │   ├── store/              # Redux store & slices
+│   │   ├── index.css                        # Global styles
+│   │   ├── store.js                         # Redux store & slices
+│   │   │
+│   │   ├── features/
+│   │   │   └── productsFiltersSlice.js
+│   │   │
+│   │   ├── context/
+│   │   │   └── CartContext.jsx              # Cart state management
+│   │   │
 │   │   └── components/
-│   │       ├── Home/
-│   │       ├── Cart/
 │   │       ├── Navbar/
+│   │       │   ├── Navbar.jsx
+│   │       │   ├── SearchInput.jsx
+│   │       │   ├── Auth/
+│   │       │   │   └── AuthButton.jsx
+│   │       │   └── CartNavIcon/
+│   │       │       └── CartNavIcon.jsx
+│   │       │
+│   │       ├── Cart/
+│   │       │   ├── Cart.jsx
+│   │       │   └── CartItem.jsx
+│   │       │
+│   │       ├── Home/
+│   │       │   ├── Home.jsx
+│   │       │   ├── Pagination.jsx
+│   │       │   ├── ProductFilter.jsx
+│   │       │   └── ProductCardsList/
+│   │       │       ├── ProductCard.jsx
+│   │       │       └── ProductCardsList.jsx
+│   │       │
+│   │       ├── ProductDetailsModal.jsx
 │   │       └── Profile.jsx
+│   │
 │   ├── public/
 │   ├── package.json
 │   └── vite.config.js
+│
 └── backend/
     └── minishop_backend_project_directory/
         ├── manage.py
         ├── requirements.txt
         ├── db.sqlite3
-        ├── media/product_images/
+        ├── media/
+        │   └── product_images/
+        │
         ├── minishop_backend_app/
         │   ├── models.py
         │   ├── views.py
         │   ├── serializers.py
         │   ├── urls.py
         │   └── migrations/
+        │
         └── minishop_backend_project_settings/
             ├── settings.py
             ├── urls.py
@@ -108,12 +141,9 @@ cd minishop-react-app-with-redux-and-context-and-prop-drilling-prod
 
 ```bash
 cd backend/minishop_backend_project_directory
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source source/bin/activate  # On Windows: source\Scripts\activate
 pip install -r requirements.txt
-python manage.py makemigrations
 python manage.py migrate
-python manage.py createsuperuser  # Optional
 python manage.py runserver
 ```
 Backend API is available at `http://localhost:8000/`.
