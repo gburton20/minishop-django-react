@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
-    "minishop_backend_app",
 ]
 
 MIDDLEWARE = [
