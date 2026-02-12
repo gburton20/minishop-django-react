@@ -28,7 +28,6 @@ venv
 env
 .env
 source/
-requirements.txt
 .env.ngrok
 .env.production
 .env.development
