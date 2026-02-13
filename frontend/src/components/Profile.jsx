@@ -16,7 +16,7 @@ const Profile = () => {
         });
         console.log("Auth0 access token:", accessToken);
 
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/profile/`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/profile/`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,

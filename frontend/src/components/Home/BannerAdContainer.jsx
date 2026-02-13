@@ -20,7 +20,7 @@ const BannerAdContainer = ({ openProductModal }) => {
         }
             try {
                 setLoading(true);
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/daily-product/`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/daily-product/`);
                 
                 if (!response.ok) {
                     throw new Error('Failed to fetch daily product');
