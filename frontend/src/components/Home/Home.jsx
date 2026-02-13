@@ -139,12 +139,7 @@ const Home = ({
             }
             
             if (data.next) {
-              try {
-                const nextUrl = new URL(data.next);
-                url = `${import.meta.env.VITE_API_URL}${nextUrl.pathname}${nextUrl.search}`;
-              } catch {
-                url = data.next;
-              }
+              url = data.next
             } else {
               url = null;
             }
