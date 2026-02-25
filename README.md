@@ -141,7 +141,7 @@ cd minishop-react-app-with-redux-and-context-and-prop-drilling-prod
 
 ```bash
 cd backend/minishop_backend_project_directory
-source source/bin/activate  # On Windows: source\Scripts\activate
+source venv/bin/activate  # On Windows: source\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
