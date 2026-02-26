@@ -8,7 +8,7 @@ This is the production repository for `minishop-django-react`. The app is a full
 
 MiniShop is a learning-focused e-commerce demo platform featuring product browsing, a shopping cart, and authentication. The frontend is built in React (using Vite) and the backend is powered by Django REST Framework, with Auth0 used for authentication.
 
-This application showcases how to manage state in React using **Redux**, **Context API**, and **prop drilling**, with practical examples comparing their trade-offs and usage.
+This application demonstrates how to manage state in React using the **Redux** and **Context API**, with practical examples that compare their trade-offs and usage.
 
 ---
 
@@ -18,7 +18,6 @@ This application showcases how to manage state in React using **Redux**, **Conte
 - React (latest) with Vite
 - Redux Toolkit (global state management)
 - React Context API (global state management)
-- Prop Drilling (direct prop passing)
 - React Router DOM (routing)
 - Auth0 React SDK (authentication)
 - ESLint (linting)
@@ -40,7 +39,7 @@ This application showcases how to manage state in React using **Redux**, **Conte
 ## Features
 
 - Product browsing and filtering
-- Shopping cart with real-time updates (via Redux, context, and prop drilling)
+- Shopping cart with real-time updates (via Redux and Context)
 - Auth0-powered login/logout and user profiles
 - Product management for authenticated users
 - Image upload for products
@@ -62,14 +61,14 @@ minishop-react-app-with-redux-and-context-and-prop-drilling-prod/
 │   ├── src/
 │   │   ├── App.jsx
 │   │   ├── main.jsx
-│   │   ├── index.css                        # Global styles
-│   │   ├── store.js                         # Redux store & slices
+│   │   ├── index.css                        
+│   │   ├── store.js                         
 │   │   │
 │   │   ├── features/
 │   │   │   └── productsFiltersSlice.js
 │   │   │
 │   │   ├── context/
-│   │   │   └── CartContext.jsx              # Cart state management
+│   │   │   └── CartContext.jsx             
 │   │   │
 │   │   └── components/
 │   │       ├── Navbar/
@@ -239,14 +238,13 @@ Frontend runs at `http://localhost:5173/`.
 
 ---
 
-## State Management Demo: Redux, Context, and Prop Drilling
+## State Management Demo: Redux and Context
 
 This app demonstrates three approaches:
 - **Redux Toolkit:** Application-wide state management with reducers, actions, and slices for cart, auth, and more.
 - **Context API:** Using React context for globally needed state (cart, auth) with provider and consumer patterns.
-- **Prop Drilling:** Passing cart, auth, and handlers directly through component tree layers (e.g., `App.jsx` → `Home.jsx` → `ProductCardsList.jsx` → `ProductCard.jsx`).
 
-Comparative code samples illustrate when to use Redux, context, or prop drilling, and discuss trade-offs in scalability, maintainability, and performance.
+Comparative code samples illustrate when to use Redux and Context, and discuss trade-offs in scalability, maintainability, and performance.
 
 ---
 
